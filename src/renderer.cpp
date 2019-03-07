@@ -39,7 +39,7 @@ void drawScene(){
 				 0.0f,
 				 -(float)(_terrain->length() - 1) / 2);
 	
-	glColor3f(0.3f, 0.9f, 0.0f);
+	glColor3f(0.4f, 0.5f, 0.3f);
 	for(int z = 0; z < _terrain->length() - 1; z++) {
 		//Makes OpenGL draw a triangle at every three consecutive vertices
 		glBegin(GL_TRIANGLE_STRIP);
