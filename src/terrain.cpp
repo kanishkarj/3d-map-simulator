@@ -1,6 +1,6 @@
-#include "terrain.h"
-#include "vec3f.h"
-#include "imageloader.h"
+#include <3d_map_simulator/terrain.h>
+#include <3d_map_simulator/vec3f.h>
+#include <3d_map_simulator/imageloader.h>
 
 #include<bits/stdc++.h>
 

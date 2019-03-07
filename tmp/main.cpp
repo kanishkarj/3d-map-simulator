@@ -32,8 +32,8 @@
 #include <GL/glut.h>
 #endif
 
-#include "imageloader.h"
-#include "vec3f.h"
+#include <3d_map_simulator/imageloader.h>
+#include <3d_map_simulator/vec3f.h>
 
 using namespace std;
 
@@ -144,31 +144,31 @@ class Terrain {
 				}
 			}
 			
-			//Smooth out the normals
-			const float FALLOUT_RATIO = 0.5f;
-			for(int z = 0; z < l; z++) {
-				for(int x = 0; x < w; x++) {
-					Vec3f sum = normals2[z][x];
+			// //Smooth out the normals
+			// const float FALLOUT_RATIO = 0.5f;
+			// for(int z = 0; z < l; z++) {
+			// 	for(int x = 0; x < w; x++) {
+			// 		Vec3f sum = normals2[z][x];
 					
-					if (x > 0) {
-						sum += normals2[z][x - 1] * FALLOUT_RATIO;
-					}
-					if (x < w - 1) {
-						sum += normals2[z][x + 1] * FALLOUT_RATIO;
-					}
-					if (z > 0) {
-						sum += normals2[z - 1][x] * FALLOUT_RATIO;
-					}
-					if (z < l - 1) {
-						sum += normals2[z + 1][x] * FALLOUT_RATIO;
-					}
+			// 		if (x > 0) {
+			// 			sum += normals2[z][x - 1] * FALLOUT_RATIO;
+			// 		}
+			// 		if (x < w - 1) {
+			// 			sum += normals2[z][x + 1] * FALLOUT_RATIO;
+			// 		}
+			// 		if (z > 0) {
+			// 			sum += normals2[z - 1][x] * FALLOUT_RATIO;
+			// 		}
+			// 		if (z < l - 1) {
+			// 			sum += normals2[z + 1][x] * FALLOUT_RATIO;
+			// 		}
 					
-					if (sum.magnitude() == 0) {
-						sum = Vec3f(0.0f, 1.0f, 0.0f);
-					}
-					normals[z][x] = sum;
-				}
-			}
+			// 		if (sum.magnitude() == 0) {
+			// 			sum = Vec3f(0.0f, 1.0f, 0.0f);
+			// 		}
+			// 		normals[z][x] = sum;
+			// 	}
+			// }
 			
 			for(int i = 0; i < l; i++) {
 				delete[] normals2[i];

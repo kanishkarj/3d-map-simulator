@@ -1,5 +1,5 @@
-#include "renderer.h"
-#include "terrain.h"
+#include <3d_map_simulator/renderer.h>
+#include <3d_map_simulator/terrain.h>
 #include <GL/glut.h>
 
 float _angle = 60.0f;
@@ -7,10 +7,10 @@ float _angle = 60.0f;
 extern Terrain* _terrain;
 
 void update(int value){
-    _angle += 1.0f;
-	if (_angle > 360) {
-		_angle -= 360;
-	}
+    // _angle += 1.0f;
+	// if (_angle > 360) {
+	// 	_angle -= 360;
+	// }
 	
 	glutPostRedisplay();
 	glutTimerFunc(25, update, 0);

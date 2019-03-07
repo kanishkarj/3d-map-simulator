@@ -25,7 +25,7 @@
 #include <assert.h>
 #include <fstream>
 
-#include "imageloader.h"
+#include <3d_map_simulator/imageloader.h>
 
 using namespace std;
 
