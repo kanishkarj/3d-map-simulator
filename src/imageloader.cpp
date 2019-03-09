@@ -1,32 +1,6 @@
-/* Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above notice and this permission notice shall be included in all copies
- * or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-/* File for "Terrain" lesson of the OpenGL tutorial on
- * www.videotutorialsrock.com
- */
-
-
-
 #include <assert.h>
 #include <fstream>
-
 #include <3d_map_simulator/imageloader.h>
-
 using namespace std;
 
 Image::Image(char* ps, int w, int h) : pixels(ps), width(w), height(h) {
@@ -38,7 +12,6 @@ Image::~Image() {
 }
 
 namespace {
-	//Converts a four-character array to an integer, using little-endian form
 	int toInt(const char* bytes) {
 		return (int)(((unsigned char)bytes[3] << 24) |
 					 ((unsigned char)bytes[2] << 16) |
@@ -46,27 +19,23 @@ namespace {
 					 (unsigned char)bytes[0]);
 	}
 	
-	//Converts a two-character array to a short, using little-endian form
 	short toShort(const char* bytes) {
 		return (short)(((unsigned char)bytes[1] << 8) |
 					   (unsigned char)bytes[0]);
 	}
 	
-	//Reads the next four bytes as an integer, using little-endian form
 	int readInt(ifstream &input) {
 		char buffer[4];
 		input.read(buffer, 4);
 		return toInt(buffer);
 	}
 	
-	//Reads the next two bytes as a short, using little-endian form
 	short readShort(ifstream &input) {
 		char buffer[2];
 		input.read(buffer, 2);
 		return toShort(buffer);
 	}
 	
-	//Just like auto_ptr, but for arrays
 	template<class T>
 	class auto_array {
 		private:
@@ -142,13 +111,11 @@ Image* loadBMP(const char* filename) {
 	input.ignore(8);
 	int dataOffset = readInt(input);
 	
-	//Read the header
 	int headerSize = readInt(input);
 	int width;
 	int height;
 	switch(headerSize) {
 		case 40:
-			//V3
 			width = readInt(input);
 			height = readInt(input);
 			input.ignore(2);
@@ -156,36 +123,30 @@ Image* loadBMP(const char* filename) {
 			assert(readShort(input) == 0 || !"Image is compressed");
 			break;
 		case 12:
-			//OS/2 V1
 			width = readShort(input);
 			height = readShort(input);
 			input.ignore(2);
 			assert(readShort(input) == 24 || !"Image is not 24 bits per pixel");
 			break;
 		case 64:
-			//OS/2 V2
 			assert(!"Can't load OS/2 V2 bitmaps");
 			break;
 		case 108:
-			//Windows V4
 			assert(!"Can't load Windows V4 bitmaps");
 			break;
 		case 124:
-			//Windows V5
 			assert(!"Can't load Windows V5 bitmaps");
 			break;
 		default:
 			assert(!"Unknown bitmap format");
 	}
 	
-	//Read the data
 	int bytesPerRow = ((width * 3 + 3) / 4) * 4 - (width * 3 % 4);
 	int size = bytesPerRow * height;
 	auto_array<char> pixels(new char[size]);
 	input.seekg(dataOffset, ios_base::beg);
 	input.read(pixels.get(), size);
 	
-	//Get the data into the right format
 	auto_array<char> pixels2(new char[width * height * 3]);
 	for(int y = 0; y < height; y++) {
 		for(int x = 0; x < width; x++) {

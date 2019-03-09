@@ -1,10 +1,9 @@
 #include<bits/stdc++.h>
 #include <GL/glut.h>
-
-#include <3d_map_simulator/vec3f.h>
-#include <3d_map_simulator/terrain.h>
-#include <3d_map_simulator/imageloader.h>
-#include <3d_map_simulator/renderer.h>
+#include  <3d_map_simulator/vec3f.h>
+#include  <3d_map_simulator/terrain.h>
+#include  <3d_map_simulator/imageloader.h>
+#include  <3d_map_simulator/renderer.h>
 
 Terrain* _terrain = new Terrain("../resources/test.bmp", 300);
 

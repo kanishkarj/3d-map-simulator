@@ -1,6 +1,6 @@
+#include <GL/glut.h>
 #include <3d_map_simulator/renderer.h>
 #include <3d_map_simulator/terrain.h>
-#include <GL/glut.h>
 
 float _angle = 60.0f;
 
@@ -41,7 +41,6 @@ void drawScene(){
 	
 	glColor3f(1.0f, 1.0f, 1.0f);
 	for(int z = 0; z < _terrain->length() - 1; z++) {
-		//Makes OpenGL draw a triangle at every three consecutive vertices
 		glBegin(GL_TRIANGLE_STRIP);
 		for(int x = 0; x < _terrain->width(); x++) {
 			Vec3f normal = _terrain->get_normal(x, z);
@@ -75,7 +74,7 @@ void initRendering(){
 
 void handleKeypress(unsigned char key, int x, int y){
     switch (key) {
-		case 27: //Escape key
+		case 27:
 			cleanup();
 			exit(0);
 	}

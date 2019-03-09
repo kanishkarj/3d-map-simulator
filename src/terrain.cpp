@@ -1,6 +1,6 @@
-#include <3d_map_simulator/terrain.h>
-#include <3d_map_simulator/vec3f.h>
-#include <3d_map_simulator/imageloader.h>
+#include  <3d_map_simulator/terrain.h>
+#include  <3d_map_simulator/vec3f.h>
+#include  <3d_map_simulator/imageloader.h>
 
 #include<bits/stdc++.h>
 
@@ -42,7 +42,6 @@ void Terrain::compute_normals() {
 		return;
 	}
 	
-	//Compute the rough version of the normals
 	vector<vector<Vec3f>> normals2 = vector<vector<Vec3f>>(l, vector<Vec3f>(w));
 	
 	for(int z = 0; z < l; z++) {
@@ -83,7 +82,6 @@ void Terrain::compute_normals() {
 		}
 	}
 	
-	//Smooth out the normals
 	const float FALLOUT_RATIO = 0.5f;
 	for(int z = 0; z < l; z++) {
 		for(int x = 0; x < w; x++) {
