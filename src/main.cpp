@@ -1,11 +1,11 @@
 #include<bits/stdc++.h>
 #include <GL/glut.h>
-#include  <3d_map_simulator/vec3f.h>
-#include  <3d_map_simulator/terrain.h>
-#include  <3d_map_simulator/imageloader.h>
-#include  <3d_map_simulator/renderer.h>
+#include  "../include/vec3f.h"
+#include  "../include/terrain.h"
+#include  "../include/imageloader.h"
+#include  "../include/renderer.h"
 
-Terrain* _terrain = new Terrain("../resources/test.bmp", 300);
+Terrain* _terrain = new Terrain("./resources/test.bmp", 300);
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);

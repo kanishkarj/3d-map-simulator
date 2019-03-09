@@ -1,6 +1,6 @@
 #include <GL/glut.h>
-#include <3d_map_simulator/renderer.h>
-#include <3d_map_simulator/terrain.h>
+#include "../include/renderer.h"
+#include "../include/terrain.h"
 
 float _angle = 60.0f;
 

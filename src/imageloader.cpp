@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <fstream>
-#include <3d_map_simulator/imageloader.h>
+#include "../include/imageloader.h"
 using namespace std;
 
 Image::Image(char* ps, int w, int h) : pixels(ps), width(w), height(h) {

@@ -2,7 +2,7 @@
 #define TERRAIN_H_INCLUDED
 
 #include<bits/stdc++.h>
-#include<3d_map_simulator/vec3f.h>
+#include "vec3f.h"
 
 using namespace std;
 
