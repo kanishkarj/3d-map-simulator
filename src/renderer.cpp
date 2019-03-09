@@ -7,10 +7,10 @@ float _angle = 60.0f;
 extern Terrain* _terrain;
 
 void update(int value){
-    // _angle += 1.0f;
-	// if (_angle > 360) {
-	// 	_angle -= 360;
-	// }
+     _angle += 1.0f;
+	 if (_angle > 360) {
+	 	_angle -= 360;
+	 }
 	
 	glutPostRedisplay();
 	glutTimerFunc(25, update, 0);
@@ -39,7 +39,7 @@ void drawScene(){
 				 0.0f,
 				 -(float)(_terrain->length() - 1) / 2);
 	
-	glColor3f(0.4f, 0.5f, 0.3f);
+	glColor3f(1.0f, 1.0f, 1.0f);
 	for(int z = 0; z < _terrain->length() - 1; z++) {
 		//Makes OpenGL draw a triangle at every three consecutive vertices
 		glBegin(GL_TRIANGLE_STRIP);

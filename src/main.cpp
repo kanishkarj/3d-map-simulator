@@ -6,7 +6,7 @@
 #include <3d_map_simulator/imageloader.h>
 #include <3d_map_simulator/renderer.h>
 
-Terrain* _terrain = new Terrain("../resources/heightmap.bmp", 50);
+Terrain* _terrain = new Terrain("../resources/test.bmp", 300);
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
