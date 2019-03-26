@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 	initRendering();
 	
 	glutDisplayFunc(drawScene);
-	glutKeyboardFunc(handleKeypress);
+	glutKeyboardFunc(specialKeys);
 	glutReshapeFunc(handleResize);
 	glutTimerFunc(25, update, 0);
 	
