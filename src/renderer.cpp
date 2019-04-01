@@ -175,7 +175,7 @@ void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<
 
 void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices) {
 	// the coordinates ordering must be clockwise.
-    quad(2,7,4,3,building_texture,offset,vertices); //top
+    quad(2,7,4,3,build_top,offset,vertices); //top
     quad(1,6,5,0,building_texture,offset,vertices); //bottom
     quad(4,7,6,5,building_texture,offset,vertices); //front
     quad(0,1,2,3,building_texture,offset,vertices); //back
@@ -184,6 +184,9 @@ void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertic
 }
 
 void render_all_buildings() {
+
+	// build6_texture goes good with sm buildings
+
 	render_building(build1_texture,Vec3f(0,0,0), buliding_struct_1_l);
 	render_building(build2_texture,Vec3f(100,0,0), buliding_struct_2_l);
 	render_building(build3_texture,Vec3f(0,0,100), buliding_struct_3_l);
@@ -192,7 +195,7 @@ void render_all_buildings() {
 	render_building(build6_texture,Vec3f(400,0,0), buliding_struct_3_md);
 	render_building(build1_texture,Vec3f(0,0,400), buliding_struct_1_sm);
 	render_building(build2_texture,Vec3f(400,0,400), buliding_struct_2_sm);
-	render_building(build3_texture,Vec3f(250,0,250), buliding_struct_3_sm);
+	render_building(build3_texture,Vec3f(250,0,1020), buliding_struct_3_sm);
 }
 
 void drawScene(){
@@ -261,6 +264,10 @@ void load_image_resources() {
 
 	image = loadBMP("./resources/build6.bmp");
 	build6_texture = loadTexture(image);
+	delete image;
+
+	image = loadBMP("./resources/build_top.bmp");
+	build_top = loadTexture(image);
 	delete image;
 }
 
