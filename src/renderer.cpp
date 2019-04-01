@@ -187,16 +187,32 @@ void render_all_buildings() {
 
 	// build6_texture goes good with sm buildings
 
-	render_building(build1_texture,Vec3f(0,0,0), buliding_struct_1_l);
-	render_building(build2_texture,Vec3f(100,0,0), buliding_struct_2_l);
-	render_building(build3_texture,Vec3f(0,0,100), buliding_struct_3_l);
-	render_building(build4_texture,Vec3f(0,0,250), buliding_struct_1_md);
-	render_building(build5_texture,Vec3f(250,0,0), buliding_struct_2_md);
-	render_building(build6_texture,Vec3f(400,0,0), buliding_struct_3_md);
-	render_building(build1_texture,Vec3f(0,0,400), buliding_struct_1_sm);
-	render_building(build2_texture,Vec3f(400,0,400), buliding_struct_2_sm);
-	render_building(build3_texture,Vec3f(250,0,1020), buliding_struct_3_sm);
+	// first row
+	render_building(build6_texture,Vec3f(50,0,50), buliding_struct_1_sm);
+	render_building(build2_texture,Vec3f(150,0,50), buliding_struct_3_md);
+	render_building(build3_texture,Vec3f(270,0,50), buliding_struct_1_md);
+	render_building(build5_texture,Vec3f(380,0,50), buliding_struct_2_md);
+	render_building(build1_texture,Vec3f(520,0,50), buliding_struct_2_l);
+	render_building(build6_texture,Vec3f(650,0,50), buliding_struct_3_sm);
+	render_building(build5_texture,Vec3f(775,0,50), buliding_struct_3_md);
+	render_building(build6_texture,Vec3f(875,0,50), buliding_struct_1_sm);
+	render_building(build4_texture,Vec3f(1020,0,50), buliding_struct_3_l);
+
+	// last row
+	render_building(build6_texture,Vec3f(50,0,1020), buliding_struct_3_sm);
+	render_building(build2_texture,Vec3f(150,0,1010), buliding_struct_1_md);
+	render_building(build3_texture,Vec3f(270,0,1010), buliding_struct_2_md);
+	render_building(build5_texture,Vec3f(380,0,1020), buliding_struct_1_md);
+	render_building(build1_texture,Vec3f(520,0,1030), buliding_struct_3_l);
+	render_building(build6_texture,Vec3f(620,0,1020), buliding_struct_2_sm);
+	render_building(build5_texture,Vec3f(775,0,1010), buliding_struct_1_md);
+	render_building(build6_texture,Vec3f(875,0,1020), buliding_struct_3_sm);
+	render_building(build4_texture,Vec3f(1020,0,1010), buliding_struct_3_l);
+
+
 }
+
+
 
 void drawScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
