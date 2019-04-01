@@ -5,7 +5,7 @@
 #include  "../include/imageloader.h"
 #include  "../include/renderer.h"
 
-Terrain* _terrain = new Terrain("./resources/test.bmp", 300);
+Terrain* _terrain = new Terrain("./resources/heightmap.bmp", 300);
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);

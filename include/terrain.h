@@ -2,6 +2,7 @@
 #define TERRAIN_H_INCLUDED
 
 #include<bits/stdc++.h>
+#include <GL/glut.h>
 #include "vec3f.h"
 
 using namespace std;

@@ -1,15 +1,12 @@
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <GL/glut.h>
+#include "../include/variables.h"
+#include "../include/vec3f.h"
 #include "../include/renderer.h"
 #include "../include/terrain.h"
-
-float _anglex = 0.0f;
-float _angley = 0.0f;
-float _anglez = 0.0f;
-
-float FSCALE = 1.0f; 
-int X_OFF = 0; 
-int Y_OFF = 0; 
-int Z_OFF = 0;
+#include "../include/imageloader.h"
+#include "../include/helper_functions.h"
 
 extern Terrain* _terrain;
 
@@ -105,21 +102,81 @@ void specialKeys( unsigned char key, int x, int y )
 
 void render_points(Vec3f normal,int x,int z) {
 	glNormal3f(X_OFF + FSCALE * normal[0], Y_OFF + FSCALE * normal[1], Z_OFF + FSCALE * normal[2]);
-			
+	// cout<<x<<" "<<z<<endl;
+	glTexCoord2f((float)(x)/1200,(float)(z)/1200);
 	glVertex3f(X_OFF + FSCALE * x, Y_OFF + FSCALE * _terrain->get_height(x, z), Z_OFF + FSCALE * z);
-	normal = _terrain->get_normal(x, z + 1);
 
+	normal = _terrain->get_normal(x, z + 1);
 	glNormal3f(X_OFF + FSCALE * normal[0], Y_OFF + FSCALE * normal[1], Z_OFF + FSCALE * normal[2]);
+	glTexCoord2f((float)(x)/1200,(float)(z+1)/1200);
 	glVertex3f(X_OFF + FSCALE * x, Y_OFF + FSCALE * _terrain->get_height(x, z + 1), Z_OFF + FSCALE * (z + 1));
+}
+
+void render_terrain(GLuint ground_texture) {
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, ground_texture);
+	
+	//Bottom
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	
+	glColor3f(1.0f, 1.0f, 1.0f);
+	for(int z = 0; z < _terrain->length() - 1; z++) {
+		glBegin(GL_TRIANGLE_STRIP);
+		for(int x = 0; x < _terrain->width(); x++) {
+			Vec3f normal = _terrain->get_normal(x, z);
+			render_points(normal,x,z);
+		}
+		glEnd();
+	}
+}
+
+float ver[8][3] = 
+{
+    {-100.0,-100.0,100.0},
+    {-100.0,100.0,100.0},
+    {100.0,100.0,100.0},
+    {100.0,-100.0,100.0},
+    {-100.0,-100.0,-100.0},
+    {-100.0,100.0,-100.0},
+    {100.0,100.0,-100.0},
+    {100.0,-100.0,-100.0},
+};
+
+void quad(int a,int b,int c,int d)
+{
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, _textureId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	
+    glColor3f(0.5f, 0.6f, 0.4f);
+    glBegin(GL_QUADS);
+
+    glVertex3fv(ver[a]);
+    glVertex3fv(ver[b]);
+    glVertex3fv(ver[c]);
+    glVertex3fv(ver[d]);
+
+    glEnd();
+}
+
+void render_building() {
+    quad(0,3,2,1);
+    quad(2,3,7,6);
+    quad(0,4,7,3);
+    quad(1,2,6,5);
+    quad(4,5,6,7);
+    quad(0,1,5,4);
 }
 
 void drawScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
 	glTranslatef(0.0f, 0.0f, -10.0f);
-	
 	glRotatef(-_anglex, 1.0f, 0.0f, 0.0f);
 	glRotatef(-_angley, 0.0f, 1.0f, 0.0f);
 	glRotatef(-_anglez, 0.0f, 0.0f, 1.0f);
@@ -138,16 +195,10 @@ void drawScene(){
 				 0.0f,
 				 -(float)(_terrain->length() - 1) / 2);
 	
-	glColor3f(1.0f, 1.0f, 1.0f);
-	for(int z = 0; z < _terrain->length() - 1; z++) {
-		glBegin(GL_TRIANGLE_STRIP);
-		for(int x = 0; x < _terrain->width(); x++) {
-			Vec3f normal = _terrain->get_normal(x, z);
-			render_points(normal,x,z);
-		}
-		glEnd();
-	}
+	render_terrain(ground_texture);
+	render_building();
 	
+
 	glutSwapBuffers();
 }
 
@@ -159,12 +210,19 @@ void handleResize(int w, int h){
 }
 
 void initRendering(){
-    glEnable(GL_DEPTH_TEST);
-	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
-	glShadeModel(GL_SMOOTH);
+	glEnable(GL_COLOR_MATERIAL);
+
+	Image* image = loadBMP("./resources/terrain_texture.bmp");
+	ground_texture = loadTexture(image);
+	delete image;
+
+	Image* image = loadBMP("./resources/build1.bmp");
+	ground_texture = loadTexture(image);
+	delete image;
 }
 
 void handleKeypress(unsigned char key, int x, int y){
