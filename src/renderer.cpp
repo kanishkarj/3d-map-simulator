@@ -147,7 +147,7 @@ Vec3f ver[8] =
 
 void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices)
 {
-	//  125 is the global offset
+	//  125 is the error offset
 	Vec3f goff = Vec3f(X_OFF,Y_OFF - 125,Z_OFF);
 
 	glEnable(GL_TEXTURE_2D);
@@ -184,15 +184,15 @@ void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertic
 }
 
 void render_all_buildings() {
-	render_building(build1_texture,Vec3f(0,0,0), buliding_struct_1);
-	render_building(build1_texture,Vec3f(100,0,0), buliding_struct_2);
-	render_building(build1_texture,Vec3f(0,0,100), buliding_struct_3);
-	render_building(build1_texture,Vec3f(0,0,250), buliding_struct_4);
-	render_building(build1_texture,Vec3f(250,0,0), buliding_struct_5);
-	render_building(build1_texture,Vec3f(400,0,0), buliding_struct_6);
-	render_building(build1_texture,Vec3f(0,0,400), buliding_struct_7);
-	render_building(build1_texture,Vec3f(400,0,400), buliding_struct_8);
-	render_building(build1_texture,Vec3f(250,0,250), buliding_struct_9);
+	render_building(build1_texture,Vec3f(0,0,0), buliding_struct_1_l);
+	render_building(build2_texture,Vec3f(100,0,0), buliding_struct_2_l);
+	render_building(build3_texture,Vec3f(0,0,100), buliding_struct_3_l);
+	render_building(build4_texture,Vec3f(0,0,250), buliding_struct_1_md);
+	render_building(build5_texture,Vec3f(250,0,0), buliding_struct_2_md);
+	render_building(build6_texture,Vec3f(400,0,0), buliding_struct_3_md);
+	render_building(build1_texture,Vec3f(0,0,400), buliding_struct_1_sm);
+	render_building(build2_texture,Vec3f(400,0,400), buliding_struct_2_sm);
+	render_building(build3_texture,Vec3f(250,0,250), buliding_struct_3_sm);
 }
 
 void drawScene(){
@@ -233,12 +233,7 @@ void handleResize(int w, int h){
 	gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
 }
 
-void initRendering(){
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_NORMALIZE);
-	glEnable(GL_COLOR_MATERIAL);
+void load_image_resources() {
 
 	Image* image = loadBMP("./resources/terrain_texture.bmp");
 	ground_texture = loadTexture(image);
@@ -247,6 +242,36 @@ void initRendering(){
 	image = loadBMP("./resources/build1.bmp");
 	build1_texture = loadTexture(image);
 	delete image;
+
+	image = loadBMP("./resources/build2.bmp");
+	build2_texture = loadTexture(image);
+	delete image;
+
+	image = loadBMP("./resources/build3.bmp");
+	build3_texture = loadTexture(image);
+	delete image;
+
+	image = loadBMP("./resources/build4.bmp");
+	build4_texture = loadTexture(image);
+	delete image;
+
+	image = loadBMP("./resources/build5.bmp");
+	build5_texture = loadTexture(image);
+	delete image;
+
+	image = loadBMP("./resources/build6.bmp");
+	build6_texture = loadTexture(image);
+	delete image;
+}
+
+void initRendering(){
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_NORMALIZE);
+	glEnable(GL_COLOR_MATERIAL);
+ 	
+	load_image_resources();
 }
 
 void handleKeypress(unsigned char key, int x, int y){
