@@ -7,6 +7,7 @@
 #include "../include/terrain.h"
 #include "../include/imageloader.h"
 #include "../include/helper_functions.h"
+#include "../include/buildings.h"
 
 extern Terrain* _terrain;
 
@@ -101,15 +102,15 @@ void specialKeys( unsigned char key, int x, int y )
 }
 
 void render_points(Vec3f normal,int x,int z) {
-	glNormal3f(X_OFF + FSCALE * normal[0], Y_OFF + FSCALE * normal[1], Z_OFF + FSCALE * normal[2]);
+	glNormal3f(FSCALE * (X_OFF +  normal[0]), FSCALE * (Y_OFF +  normal[1]), FSCALE * (Z_OFF +  normal[2]));
 	// cout<<x<<" "<<z<<endl;
 	glTexCoord2f((float)(x)/1200,(float)(z)/1200);
-	glVertex3f(X_OFF + FSCALE * x, Y_OFF + FSCALE * _terrain->get_height(x, z), Z_OFF + FSCALE * z);
+	glVertex3f(FSCALE * (X_OFF +  x), FSCALE * (Y_OFF +  _terrain->get_height(x, z)), FSCALE * (Z_OFF +  z));
 
 	normal = _terrain->get_normal(x, z + 1);
-	glNormal3f(X_OFF + FSCALE * normal[0], Y_OFF + FSCALE * normal[1], Z_OFF + FSCALE * normal[2]);
+	glNormal3f((X_OFF +  normal[0]), Y_OFF +  normal[1], Z_OFF +  normal[2]);
 	glTexCoord2f((float)(x)/1200,(float)(z+1)/1200);
-	glVertex3f(X_OFF + FSCALE * x, Y_OFF + FSCALE * _terrain->get_height(x, z + 1), Z_OFF + FSCALE * (z + 1));
+	glVertex3f(FSCALE * (X_OFF +  x), FSCALE * (Y_OFF +  _terrain->get_height(x, z + 1)), FSCALE * (Z_OFF +  (z + 1)));
 }
 
 void render_terrain(GLuint ground_texture) {
@@ -132,7 +133,7 @@ void render_terrain(GLuint ground_texture) {
 	}
 }
 
-float ver[8][3] = 
+Vec3f ver[8] = 
 {
     {-100.0,-100.0,100.0},
     {-100.0,100.0,100.0},
@@ -144,31 +145,54 @@ float ver[8][3] =
     {100.0,-100.0,-100.0},
 };
 
-void quad(int a,int b,int c,int d)
+void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices)
 {
+	//  125 is the global offset
+	Vec3f goff = Vec3f(X_OFF,Y_OFF - 125,Z_OFF);
+
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, _textureId);
+	glBindTexture(GL_TEXTURE_2D, building_texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	
-    glColor3f(0.5f, 0.6f, 0.4f);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
 
-    glVertex3fv(ver[a]);
-    glVertex3fv(ver[b]);
-    glVertex3fv(ver[c]);
-    glVertex3fv(ver[d]);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3fv(((vertices[a] + offset + goff) * FSCALE).to_float());
+
+	glTexCoord2f(1.0f, 1.0f);
+    glVertex3fv(((vertices[b] + offset + goff) * FSCALE).to_float());
+
+	glTexCoord2f(1.0f, 0.0f);
+    glVertex3fv(((vertices[c] + offset + goff) * FSCALE).to_float());
+
+	glTexCoord2f(0.0f, 0.0f);
+    glVertex3fv(((vertices[d] + offset + goff) * FSCALE).to_float());
 
     glEnd();
 }
 
-void render_building() {
-    quad(0,3,2,1);
-    quad(2,3,7,6);
-    quad(0,4,7,3);
-    quad(1,2,6,5);
-    quad(4,5,6,7);
-    quad(0,1,5,4);
+void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices) {
+	// the coordinates ordering must be clockwise.
+    quad(2,7,4,3,building_texture,offset,vertices); //top
+    quad(1,6,5,0,building_texture,offset,vertices); //bottom
+    quad(4,7,6,5,building_texture,offset,vertices); //front
+    quad(0,1,2,3,building_texture,offset,vertices); //back
+    quad(3,4,5,0,building_texture,offset,vertices); //left
+    quad(7,2,1,6,building_texture,offset,vertices); //right
+}
+
+void render_all_buildings() {
+	render_building(build1_texture,Vec3f(0,0,0), buliding_struct_1);
+	render_building(build1_texture,Vec3f(100,0,0), buliding_struct_2);
+	render_building(build1_texture,Vec3f(0,0,100), buliding_struct_3);
+	render_building(build1_texture,Vec3f(0,0,250), buliding_struct_4);
+	render_building(build1_texture,Vec3f(250,0,0), buliding_struct_5);
+	render_building(build1_texture,Vec3f(400,0,0), buliding_struct_6);
+	render_building(build1_texture,Vec3f(0,0,400), buliding_struct_7);
+	render_building(build1_texture,Vec3f(400,0,400), buliding_struct_8);
+	render_building(build1_texture,Vec3f(250,0,250), buliding_struct_9);
 }
 
 void drawScene(){
@@ -196,9 +220,9 @@ void drawScene(){
 				 -(float)(_terrain->length() - 1) / 2);
 	
 	render_terrain(ground_texture);
-	render_building();
-	
 
+	render_all_buildings();
+	
 	glutSwapBuffers();
 }
 
@@ -220,8 +244,8 @@ void initRendering(){
 	ground_texture = loadTexture(image);
 	delete image;
 
-	Image* image = loadBMP("./resources/build1.bmp");
-	ground_texture = loadTexture(image);
+	image = loadBMP("./resources/build1.bmp");
+	build1_texture = loadTexture(image);
 	delete image;
 }
 

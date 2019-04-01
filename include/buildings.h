@@ -1,0 +1,30 @@
+/*
+this header file consists of all buildings
+*/
+#include <bits/stdc++.h>
+#include "../include/vec3f.h"
+
+using namespace std;
+
+vector<Vec3f> construct_building(float l, float b, float h) {
+	vector<Vec3f> t(8);
+	t[0] = Vec3f(0,0,0);
+	t[1] = Vec3f(b,0,0);
+	t[2] = Vec3f(b,h,0);
+	t[3] = Vec3f(0,h,0);
+	t[4] = Vec3f(0,h,l);
+	t[5] = Vec3f(0,0,l);
+	t[6] = Vec3f(b,0,l);
+	t[7] = Vec3f(b,h,l);
+	return t;
+}
+
+vector<Vec3f> buliding_struct_1 = construct_building(75,75,300);
+vector<Vec3f> buliding_struct_2 = construct_building(75,100,300);
+vector<Vec3f> buliding_struct_3 = construct_building(100,75,300);
+vector<Vec3f> buliding_struct_4 = construct_building(75,75,200);
+vector<Vec3f> buliding_struct_5 = construct_building(75,100,200);
+vector<Vec3f> buliding_struct_6 = construct_building(100,75,200);
+vector<Vec3f> buliding_struct_7 = construct_building(75,75,100);
+vector<Vec3f> buliding_struct_8 = construct_building(75,100,100);
+vector<Vec3f> buliding_struct_9 = construct_building(100,75,100);

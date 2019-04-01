@@ -101,7 +101,9 @@ ostream &operator<<(ostream &output, const Vec3f &v) {
 }
 
 
-
+float* Vec3f::to_float() {
+	return v;
+}
 
 
 
