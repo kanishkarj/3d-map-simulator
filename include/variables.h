@@ -3,16 +3,17 @@
 
 
 // Camera Variables
-float speed=0.05f;
+float speed=0.5f;
 float rot_speed=0.001f;
-float yaw=0.0f;
+float yaw = 3.141592653;
 float pitch=0.0f;
-float lx=0.0f,lz=-1.0f,ly=0.0f;
-float cam_x=-0.5f,cam_z=0.0f,cam_y=-0.2f;
+float lx=0.0f,lz=1.0f,ly=0.0f;
+float cam_x=18.2913,cam_y=-4.48757,cam_z= -1.70081;
 bool mode =false;
 bool warped=false;
+bool full_screen=false;
 
-float FSCALE = 1.0f; 
+float FSCALE = 10.0f; 
 int X_OFF = 0; 
 int Y_OFF = 0; 
 int Z_OFF = 0;

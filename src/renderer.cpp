@@ -12,6 +12,7 @@
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
 
+
 void keyboard(unsigned char key,int x,int y){
 	switch (key) {
 		case 27 :
@@ -42,6 +43,16 @@ void keyboard(unsigned char key,int x,int y){
 			break;
 		case 'j': 
 			cam_y -= speed ;
+			break;
+		case 'f':
+			if(!full_screen){
+				glutFullScreen();
+				full_screen=1;
+			}
+			else{
+				glutReshapeWindow(400,400);
+				full_screen=0;
+			}
 			break;
 	}
 	glutPostRedisplay();
@@ -181,6 +192,7 @@ void drawScene(){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
+	//cout<<cam_x<<' '<<cam_y<<' '<<cam_z<<endl;
 	
 	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
@@ -205,7 +217,7 @@ void handleResize(int w, int h){
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(30.0, (double)w / (double)h, 0.2, 200.0);
+	gluPerspective(20.0, (double)w / (double)h, 0.01, 200.0);
 }
 
 void load_image_resources() {
