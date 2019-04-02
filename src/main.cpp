@@ -11,14 +11,14 @@ int main(int argc, char** argv) {
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(400, 400);
-	
 	glutCreateWindow("3D Map simulator");
 	initRendering();
 	
 	glutDisplayFunc(drawScene);
-	glutKeyboardFunc(specialKeys);
+	glutKeyboardFunc(keyboard);
+	glutSetCursor(GLUT_CURSOR_NONE);
+	glutPassiveMotionFunc(mouse);
 	glutReshapeFunc(handleResize);
-	glutTimerFunc(25, update, 0);
 	
 	glutMainLoop();
 	return 0;

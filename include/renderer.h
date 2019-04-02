@@ -5,9 +5,8 @@ void update(int value);
 void drawScene();
 void handleResize(int w, int h);
 void initRendering();
-void specialKeys(unsigned char key, int x, int y);
-void mouseFunc(int button, int state, int x, int y);
-void mouseMovement(int x, int y);
+void keyboard(unsigned char,int,int);
+void mouse(int,int);
 void cleanup();
 
 #endif

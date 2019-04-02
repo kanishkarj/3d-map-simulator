@@ -10,100 +10,64 @@
 #include "../include/buildings.h"
 
 extern Terrain* _terrain;
+float limit=89.0*M_PI/180.0f;
 
-void update(int value){
-    //  _anglex += 1.0f;
-	 if (_anglex > 360) {
-	 	_anglex -= 360;
-	 }
-	
+void keyboard(unsigned char key,int x,int y){
+	switch (key) {
+		case 27 :
+			cleanup();
+			exit(0);
+		case ' ':
+			mode=!mode;
+		case 'w' :
+			cam_x += lx * speed ;
+			cam_y += ly * speed ;
+			cam_z += lz * speed ;
+			break;
+		case 's' :
+			cam_x -= lx * speed ;
+			cam_y -= ly * speed ;
+			cam_z -= lz * speed ;
+			break;
+		case 'a' :
+			cam_x += cos(pitch) * sin(yaw - M_PI_2) * speed ;
+			cam_z += -cos(pitch) * cos(yaw - M_PI_2) * speed ;
+			break;
+		case 'd' :
+			cam_x += cos(pitch) * sin(yaw + M_PI_2) * speed ;
+			cam_z += -cos(pitch) * cos(yaw + M_PI_2) * speed ;
+			break;
+		case 'i' :
+			cam_y += speed ;
+			break;
+		case 'j': 
+			cam_y -= speed ;
+			break;
+	}
 	glutPostRedisplay();
-	glutTimerFunc(25, update, 0);
 }
 
-void specialKeys( unsigned char key, int x, int y ) 
-{
-	switch(key) {
-        
-		// Coordinate Translations positive
-		case 'i' : {
-			X_OFF += 25;
-            break;
-        };
-		case 'j' : {
-			Y_OFF += 25;
-            break;
-        };
-		case 'k' : {
-			Z_OFF += 25;
-            break;
-        };
-
-		// Coordinate Translations negative
-		case 'I' : {
-			X_OFF -= 25;
-            break;
-        };
-		case 'J' : {
-			Y_OFF -= 25;
-            break;
-        };
-		case 'K' : {
-			Z_OFF -= 25;
-            break;
-        };
-
-
-		// Scale/Zoom in and out
-        case 's' : {
-			FSCALE += 0.02f;
-            break;
-        };
-        case 'S' : {
-			FSCALE -= 0.02f;
-            break;
-        };
-
-		// miscellaneous commands
-        case 'r' : {
-			FSCALE = 0.0f;
-			X_OFF = 0;
-			Y_OFF = 0;
-			Z_OFF = 0;
-            break;
-        };
-
-		// Rotation commands
-		case 'x' : {
-			_anglex += 1.0f;
-			break;
+void mouse(int mx,int my){
+	if(mode){
+		if(warped){
+			warped=false;
+			return;
 		}
-		case 'X' : {
-	    	_anglex -= 1.0f;
-			break;
-		}
-		case 'y' : {
-			_angley += 1.0f;
-			break;
-		}
-		case 'Y' : {
-	    	_angley -= 1.0f;
-			break;
-		}
-		case 'z' : {
-			_anglez += 1.0f;
-			break;
-		}
-		case 'Z' : {
-	    	_anglez -= 1.0f;
-			break;
-		}
+		pitch += (200-my)*rot_speed;
+		if(pitch>=limit) pitch=limit;
+		else if(pitch<=-limit) pitch= -limit;
+		yaw += (mx-200)*rot_speed;
+		glutWarpPointer(200,200);
+		lx = cos(pitch)*sin(yaw);
+		ly = sin(pitch);
+		lz = -cos(pitch)*cos(yaw);
+		warped=true;
+		glutPostRedisplay();
 	}
 }
 
 void render_points(Vec3f normal,int x,int z) {
 	glNormal3f(FSCALE * (X_OFF +  normal[0]), FSCALE * (Y_OFF +  normal[1]), FSCALE * (Z_OFF +  normal[2]));
-	// cout<<x<<" "<<z<<endl;
 	glTexCoord2f((float)(x)/1200,(float)(z)/1200);
 	glVertex3f(FSCALE * (X_OFF +  x), FSCALE * (Y_OFF +  _terrain->get_height(x, z)), FSCALE * (Z_OFF +  z));
 
@@ -212,34 +176,26 @@ void render_all_buildings() {
 
 }
 
-
-
 void drawScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-
-	glTranslatef(0.0f, 0.0f, -10.0f);
-	glRotatef(-_anglex, 1.0f, 0.0f, 0.0f);
-	glRotatef(-_angley, 0.0f, 1.0f, 0.0f);
-	glRotatef(-_anglez, 0.0f, 0.0f, 1.0f);
+	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
 	
-	// GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
-	// glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
 	
-	// GLfloat lightColor0[] = {0.6f, 0.6f, 0.6f, 1.0f};
-	// GLfloat lightPos0[] = {-0.5f, 0.8f, 0.1f, 0.0f};
-	// glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-	// glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+	GLfloat lightColor0[] = {0.6f, 0.6f, 0.6f, 1.0f};
+	GLfloat lightPos0[] = {-0.5f, 0.8f, 0.1f, 0.0f};
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 	
 	float scale = 5.0f / max(_terrain->width() - 1, _terrain->length() - 1);
 	glScalef(scale, scale, scale);
-	glTranslatef(-(float)(_terrain->width() - 1) / 2,
-				 0.0f,
-				 -(float)(_terrain->length() - 1) / 2);
+	glTranslatef(-(float)(_terrain->width() - 1) / 2, 0.0f, -(float)(_terrain->length() - 1) / 2);
 	
 	render_terrain(ground_texture);
-
+	
 	render_all_buildings();
 	
 	glutSwapBuffers();
@@ -249,7 +205,7 @@ void handleResize(int w, int h){
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
+	gluPerspective(30.0, (double)w / (double)h, 0.2, 200.0);
 }
 
 void load_image_resources() {
@@ -293,16 +249,7 @@ void initRendering(){
 	glEnable(GL_LIGHT0);
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
- 	
 	load_image_resources();
-}
-
-void handleKeypress(unsigned char key, int x, int y){
-    switch (key) {
-		case 27:
-			cleanup();
-			exit(0);
-	}
 }
 
 void cleanup() {
