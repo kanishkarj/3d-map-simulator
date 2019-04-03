@@ -13,7 +13,7 @@ bool mode =false;
 bool warped=false;
 bool full_screen=false;
 
-float FSCALE = 10.0f; 
+float FSCALE = 50.0f; 
 int X_OFF = 0; 
 int Y_OFF = 0; 
 int Z_OFF = 0;

@@ -79,12 +79,12 @@ void mouse(int mx,int my){
 
 void render_points(Vec3f normal,int x,int z) {
 	glNormal3f(FSCALE * (X_OFF +  normal[0]), FSCALE * (Y_OFF +  normal[1]), FSCALE * (Z_OFF +  normal[2]));
-	glTexCoord2f((float)(x)/1200,(float)(z)/1200);
+	glTexCoord2f((float)(x)/300,(float)(z)/300);
 	glVertex3f(FSCALE * (X_OFF +  x), FSCALE * (Y_OFF +  _terrain->get_height(x, z)), FSCALE * (Z_OFF +  z));
 
 	normal = _terrain->get_normal(x, z + 1);
 	glNormal3f((X_OFF +  normal[0]), Y_OFF +  normal[1], Z_OFF +  normal[2]);
-	glTexCoord2f((float)(x)/1200,(float)(z+1)/1200);
+	glTexCoord2f((float)(x)/300,(float)(z+1)/300);
 	glVertex3f(FSCALE * (X_OFF +  x), FSCALE * (Y_OFF +  _terrain->get_height(x, z + 1)), FSCALE * (Z_OFF +  (z + 1)));
 }
 
@@ -123,7 +123,7 @@ Vec3f ver[8] =
 void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices)
 {
 	//  125 is the error offset
-	Vec3f goff = Vec3f(X_OFF,Y_OFF - 125,Z_OFF);
+	Vec3f goff = Vec3f(X_OFF,Y_OFF - 25,Z_OFF);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, building_texture);
@@ -133,13 +133,13 @@ void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
 
-	glTexCoord2f(0.0f, 1.0f);
+	glTexCoord2f(0.0f, 3.0f);
 	glVertex3fv(((vertices[a] + offset + goff) * FSCALE).to_float());
 
-	glTexCoord2f(1.0f, 1.0f);
+	glTexCoord2f(3.0f, 3.0f);
     glVertex3fv(((vertices[b] + offset + goff) * FSCALE).to_float());
 
-	glTexCoord2f(1.0f, 0.0f);
+	glTexCoord2f(3.0f, 0.0f);
     glVertex3fv(((vertices[c] + offset + goff) * FSCALE).to_float());
 
 	glTexCoord2f(0.0f, 0.0f);
@@ -163,26 +163,26 @@ void render_all_buildings() {
 	// build6_texture goes good with sm buildings
 
 	// first row
-	render_building(build6_texture,Vec3f(50,0,50), buliding_struct_1_sm);
-	render_building(build2_texture,Vec3f(150,0,50), buliding_struct_3_md);
-	render_building(build3_texture,Vec3f(270,0,50), buliding_struct_1_md);
-	render_building(build5_texture,Vec3f(380,0,50), buliding_struct_2_md);
-	render_building(build1_texture,Vec3f(520,0,50), buliding_struct_2_l);
-	render_building(build6_texture,Vec3f(650,0,50), buliding_struct_3_sm);
-	render_building(build5_texture,Vec3f(775,0,50), buliding_struct_3_md);
-	render_building(build6_texture,Vec3f(875,0,50), buliding_struct_1_sm);
-	render_building(build4_texture,Vec3f(1020,0,50), buliding_struct_3_l);
+	render_building(build6_texture,Vec3f(12.5,0,12.5), buliding_struct_1_sm);
+	render_building(build2_texture,Vec3f(37.5,0,12.5), buliding_struct_3_md);
+	render_building(build3_texture,Vec3f(67.625,0,12.5), buliding_struct_1_md);
+	render_building(build5_texture,Vec3f(95,0,12.5), buliding_struct_2_md);
+	render_building(build1_texture,Vec3f(130,0,12.5), buliding_struct_2_l);
+	render_building(build6_texture,Vec3f(162.5,0,12.5), buliding_struct_3_sm);
+	render_building(build5_texture,Vec3f(193.75,0,12.5), buliding_struct_3_md);
+	render_building(build6_texture,Vec3f(218.75,0,12.5), buliding_struct_1_sm);
+	render_building(build4_texture,Vec3f(255,0,12.5), buliding_struct_3_l);
 
 	// last row
-	render_building(build6_texture,Vec3f(50,0,1020), buliding_struct_3_sm);
-	render_building(build2_texture,Vec3f(150,0,1010), buliding_struct_1_md);
-	render_building(build3_texture,Vec3f(270,0,1010), buliding_struct_2_md);
-	render_building(build5_texture,Vec3f(380,0,1020), buliding_struct_1_md);
-	render_building(build1_texture,Vec3f(520,0,1030), buliding_struct_3_l);
-	render_building(build6_texture,Vec3f(620,0,1020), buliding_struct_2_sm);
-	render_building(build5_texture,Vec3f(775,0,1010), buliding_struct_1_md);
-	render_building(build6_texture,Vec3f(875,0,1020), buliding_struct_3_sm);
-	render_building(build4_texture,Vec3f(1020,0,1010), buliding_struct_3_l);
+	render_building(build6_texture,Vec3f(12.5,0,255), buliding_struct_3_sm);
+	render_building(build2_texture,Vec3f(37.5,0,252.4), buliding_struct_1_md);
+	render_building(build3_texture,Vec3f(67.625,0,252.4), buliding_struct_2_md);
+	render_building(build5_texture,Vec3f(95,0,255), buliding_struct_1_md);
+	render_building(build1_texture,Vec3f(130,0,257.4), buliding_struct_3_l);
+	render_building(build6_texture,Vec3f(155,0,255), buliding_struct_2_sm);
+	render_building(build5_texture,Vec3f(193.75,0,252.4), buliding_struct_1_md);
+	render_building(build6_texture,Vec3f(218.75,0,255), buliding_struct_3_sm);
+	render_building(build4_texture,Vec3f(255,0,252.4), buliding_struct_3_l);
 
 
 }
