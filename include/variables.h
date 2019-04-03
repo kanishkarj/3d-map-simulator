@@ -31,5 +31,6 @@ enum TimeOfDay {
     Night
 };
 
-TimeOfDay tod;
+TimeOfDay tod = TimeOfDay::Night;
+int time_hr = 0;
 #endif

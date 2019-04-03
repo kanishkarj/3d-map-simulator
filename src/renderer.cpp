@@ -12,8 +12,30 @@
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
 
+void lighting() {
+	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
+	
+	GLfloat lightColor0[] = {0.6f, 0.6f, 0.6f, 1.0f};
+	GLfloat lightPos0[] = {-0.5f, 0.8f, 0.1f, 0.0f};
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+}
+
 void update_local_vars() {
-	tod = TimeOfDay::Evening;
+	time_hr %= 24;
+	if(time_hr > 4 && time_hr <= 11) {
+		lighting();
+		tod = TimeOfDay::Morning;
+	} else if (time_hr > 11 && time_hr <= 17) {
+		lighting();
+		tod = TimeOfDay::Afternoon;
+	} else if (time_hr > 17 && time_hr <= 19) {
+		lighting();
+		tod = TimeOfDay::Evening;
+	} else if (time_hr > 19) {
+		tod = TimeOfDay::Night;
+	} 
 }
 
 void keyboard(unsigned char key,int x,int y){
@@ -56,6 +78,14 @@ void keyboard(unsigned char key,int x,int y){
 				glutReshapeWindow(400,400);
 				full_screen=0;
 			}
+			break;
+		case 't':
+			time_hr++;
+			cout<<time_hr<<endl;
+			break;
+		case 'T':
+			time_hr--;
+			cout<<time_hr<<endl;
 			break;
 	}
 	glutPostRedisplay();
@@ -227,14 +257,6 @@ void drawScene(){
 	glLoadIdentity();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
 	//cout<<cam_x<<' '<<cam_y<<' '<<cam_z<<endl;
-	
-	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
-	
-	GLfloat lightColor0[] = {0.6f, 0.6f, 0.6f, 1.0f};
-	GLfloat lightPos0[] = {-0.5f, 0.8f, 0.1f, 0.0f};
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 	
 	float scale = 5.0f / max(_terrain->width() - 1, _terrain->length() - 1);
 	glScalef(scale, scale, scale);
