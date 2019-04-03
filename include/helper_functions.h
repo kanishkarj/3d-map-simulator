@@ -17,3 +17,11 @@ GLuint loadTexture(Image* image) {
 				 image->pixels);
 	return textureId;
 }
+
+GLuint loadTx(string str) {
+	const char* path = str.c_str();
+	Image* image = loadBMP(path);
+	GLuint tex = loadTexture(image);
+	delete image;
+	return tex;
+}

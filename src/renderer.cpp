@@ -12,6 +12,9 @@
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
 
+void update_local_vars() {
+	tod = TimeOfDay::Evening;
+}
 
 void keyboard(unsigned char key,int x,int y){
 	switch (key) {
@@ -120,7 +123,7 @@ Vec3f ver[8] =
     {100.0,-100.0,-100.0},
 };
 
-void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices)
+void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices, float scale)
 {
 	//  125 is the error offset
 	Vec3f goff = Vec3f(X_OFF,Y_OFF - 25,Z_OFF);
@@ -133,13 +136,13 @@ void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<
     glColor3f(1.0f, 1.0f, 1.0f);
     glBegin(GL_QUADS);
 
-	glTexCoord2f(0.0f, 3.0f);
+	glTexCoord2f(0.0f, scale);
 	glVertex3fv(((vertices[a] + offset + goff) * FSCALE).to_float());
 
-	glTexCoord2f(3.0f, 3.0f);
+	glTexCoord2f(scale, scale);
     glVertex3fv(((vertices[b] + offset + goff) * FSCALE).to_float());
 
-	glTexCoord2f(3.0f, 0.0f);
+	glTexCoord2f(scale, 0.0f);
     glVertex3fv(((vertices[c] + offset + goff) * FSCALE).to_float());
 
 	glTexCoord2f(0.0f, 0.0f);
@@ -150,12 +153,22 @@ void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<
 
 void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices) {
 	// the coordinates ordering must be clockwise.
-    quad(2,7,4,3,build_top,offset,vertices); //top
-    quad(1,6,5,0,building_texture,offset,vertices); //bottom
-    quad(4,7,6,5,building_texture,offset,vertices); //front
-    quad(0,1,2,3,building_texture,offset,vertices); //back
-    quad(3,4,5,0,building_texture,offset,vertices); //left
-    quad(7,2,1,6,building_texture,offset,vertices); //right
+    quad(2,7,4,3,build_top,offset,vertices, 3.0f); //top
+    quad(1,6,5,0,building_texture,offset,vertices, 3.0f); //bottom
+    quad(4,7,6,5,building_texture,offset,vertices, 3.0f); //front
+    quad(0,1,2,3,building_texture,offset,vertices, 3.0f); //back
+    quad(3,4,5,0,building_texture,offset,vertices, 3.0f); //left
+    quad(7,2,1,6,building_texture,offset,vertices, 3.0f); //right
+}
+
+void render_sky_helper(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices, float scale) {
+	// the coordinates ordering must be clockwise.
+    quad(2,7,4,3,building_texture,offset,vertices, scale); //top
+    quad(1,6,5,0,building_texture,offset,vertices, scale); //bottom
+    quad(4,7,6,5,building_texture,offset,vertices, scale); //front
+    quad(0,1,2,3,building_texture,offset,vertices, scale); //back
+    quad(3,4,5,0,building_texture,offset,vertices, scale); //left
+    quad(7,2,1,6,building_texture,offset,vertices, scale); //right
 }
 
 void render_all_buildings() {
@@ -187,6 +200,27 @@ void render_all_buildings() {
 
 }
 
+void render_sky() {
+	switch (tod) {
+		case TimeOfDay::Night : {
+			render_sky_helper(sky_night,Vec3f(-100,-100,-100),sky_coord,3.0f);
+			break;
+		}
+		case TimeOfDay::Afternoon : {
+			render_sky_helper(sky_afternoon,Vec3f(-100,-100,-100),sky_coord,1.0f);
+			break;
+		}
+		case TimeOfDay::Morning : {
+			render_sky_helper(sky_morning,Vec3f(-100,-100,-100),sky_coord,1.0f);
+			break;
+		}
+		case TimeOfDay::Evening : {
+			render_sky_helper(sky_evening,Vec3f(-100,-100,-100),sky_coord,1.0f);
+			break;
+		}
+	}
+}
+
 void drawScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
@@ -209,50 +243,37 @@ void drawScene(){
 	render_terrain(ground_texture);
 	
 	render_all_buildings();
-	
+	render_sky();
+
 	glutSwapBuffers();
+
+	update_local_vars();
 }
 
 void handleResize(int w, int h){
     glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(20.0, (double)w / (double)h, 0.01, 200.0);
+	gluPerspective(20.0, (double)w / (double)h, 0.01, 20 * FSCALE);
 }
 
 void load_image_resources() {
 
-	Image* image = loadBMP("./resources/terrain_texture.bmp");
-	ground_texture = loadTexture(image);
-	delete image;
+	ground_texture = loadTx("./resources/terrain_texture.bmp");
 
-	image = loadBMP("./resources/build1.bmp");
-	build1_texture = loadTexture(image);
-	delete image;
+	build1_texture = loadTx("./resources/buildings/build1.bmp");
+	build2_texture = loadTx("./resources/buildings/build2.bmp");
+	build3_texture = loadTx("./resources/buildings/build3.bmp");
+	build4_texture = loadTx("./resources/buildings/build4.bmp");
+	build5_texture = loadTx("./resources/buildings/build5.bmp");
+	build6_texture = loadTx("./resources/buildings/build6.bmp");
+	build_top = loadTx("./resources/buildings/build_top.bmp");
 
-	image = loadBMP("./resources/build2.bmp");
-	build2_texture = loadTexture(image);
-	delete image;
-
-	image = loadBMP("./resources/build3.bmp");
-	build3_texture = loadTexture(image);
-	delete image;
-
-	image = loadBMP("./resources/build4.bmp");
-	build4_texture = loadTexture(image);
-	delete image;
-
-	image = loadBMP("./resources/build5.bmp");
-	build5_texture = loadTexture(image);
-	delete image;
-
-	image = loadBMP("./resources/build6.bmp");
-	build6_texture = loadTexture(image);
-	delete image;
-
-	image = loadBMP("./resources/build_top.bmp");
-	build_top = loadTexture(image);
-	delete image;
+	sky_night = loadTx("./resources/sky/night.bmp");
+	sky_afternoon = loadTx("./resources/sky/afternoon.bmp");
+	sky_evening = loadTx("./resources/sky/evening.bmp");
+	sky_morning = loadTx("./resources/sky/morning.bmp");
+ 
 }
 
 void initRendering(){
