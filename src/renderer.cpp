@@ -250,26 +250,26 @@ void render_all_buildings() {
 	render_building(build6_texture,Vec3f(197,0,124), buliding_struct_4_xsm);
 	render_building(build6_texture,Vec3f(74,0,190), buliding_struct_4_xsm);
 
-	render_building(build6_texture,Vec3f(154,0,120), buliding_struct_5_sm);
+	render_building(build5_texture,Vec3f(154,0,120), buliding_struct_5_sm);
 	render_building(build6_texture,Vec3f(197,0,197), buliding_struct_5_sm);
-	render_building(build6_texture,Vec3f(84,0,145), buliding_struct_6_sm);
+	render_building(build3_texture,Vec3f(84,0,145), buliding_struct_6_sm);
 
 
-	render_building(build6_texture,Vec3f(198,0,80), buliding_struct_6_md);
+	render_building(build4_texture,Vec3f(198,0,80), buliding_struct_6_md);
 	render_building(build6_texture,Vec3f(198,0,55), buliding_struct_6_sm);
 
 	render_building(build6_texture,Vec3f(82,0,55), buliding_struct_6_xsm);
 
-	render_building(build6_texture,Vec3f(69,0,82), buliding_struct_1_sm);
-	render_building(build6_texture,Vec3f(69,0,119), buliding_struct_1_sm);
-	render_building(build6_texture,Vec3f(129,0,142), buliding_struct_1_sm);
+	render_building(build1_texture,Vec3f(69,0,82), buliding_struct_1_sm);
+	render_building(build2_texture,Vec3f(69,0,119), buliding_struct_1_md);
+	render_building(build3_texture,Vec3f(129,0,142), buliding_struct_1_sm);
 
 	render_building(build6_texture,Vec3f(220,0,177), buliding_struct_1_sm);
-	render_building(build6_texture,Vec3f(133,0,190), buliding_struct_4_sm);
+	render_building(build4_texture,Vec3f(133,0,190), buliding_struct_4_md);
 
-	render_building(build6_texture,Vec3f(129,0,74), buliding_struct_5_sm);
+	render_building(build6_texture,Vec3f(129,0,74), buliding_struct_5_xsm);
 
-	render_building(build6_texture,Vec3f(148,0,51), buliding_struct_6_sm);
+	render_building(build3_texture,Vec3f(148,0,51), buliding_struct_6_sm);
 
 }
 
