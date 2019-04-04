@@ -19,6 +19,8 @@ vector<Vec3f> construct_building(float l, float b, float h) {
 	return t;
 }
 
+auto sky_coord = construct_building(500,500,500);
+
 auto buliding_struct_1_l = construct_building(18.75,18.75,75);
 auto buliding_struct_2_l = construct_building(18.75,25,75);
 auto buliding_struct_3_l = construct_building(25,18.75,75);
@@ -28,4 +30,15 @@ auto buliding_struct_3_md = construct_building(25,18.75,50);
 auto buliding_struct_1_sm = construct_building(18.75,18.75,25);
 auto buliding_struct_2_sm = construct_building(18.75,25,25);
 auto buliding_struct_3_sm = construct_building(25,18.75,25);
-auto sky_coord = construct_building(500,500,500);
+
+auto buliding_struct_4_xsm = construct_building(30,30,15);
+auto buliding_struct_5_xsm = construct_building(30,20,15);
+auto buliding_struct_6_xsm = construct_building(20,30,15);
+
+auto buliding_struct_4_sm = construct_building(30,30,25);
+auto buliding_struct_5_sm = construct_building(30,20,25);
+auto buliding_struct_6_sm = construct_building(20,30,25);
+
+auto buliding_struct_4_md = construct_building(30,30,50);
+auto buliding_struct_5_md = construct_building(30,20,50);
+auto buliding_struct_6_md = construct_building(20,30,50);

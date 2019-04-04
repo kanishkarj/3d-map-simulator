@@ -12,6 +12,9 @@
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
 
+int xg = 180;
+int zg = 150;
+
 void lighting() {
 	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
@@ -86,6 +89,23 @@ void keyboard(unsigned char key,int x,int y){
 		case 'T':
 			time_hr--;
 			cout<<time_hr<<endl;
+			break;
+
+		case 'x':
+			xg++;
+			cout<<xg<<","<<zg<<endl;
+			break;
+		case 'X':
+			xg--;
+			cout<<xg<<","<<zg<<endl;
+			break;
+		case 'z':
+			zg++;
+			cout<<xg<<","<<zg<<endl;
+			break;
+		case 'Z':
+			zg--;
+			cout<<xg<<","<<zg<<endl;
 			break;
 	}
 	glutPostRedisplay();
@@ -227,6 +247,29 @@ void render_all_buildings() {
 	render_building(build6_texture,Vec3f(218.75,0,255), buliding_struct_3_sm);
 	render_building(build4_texture,Vec3f(255,0,252.4), buliding_struct_3_l);
 
+	render_building(build6_texture,Vec3f(197,0,124), buliding_struct_4_xsm);
+	render_building(build6_texture,Vec3f(74,0,190), buliding_struct_4_xsm);
+
+	render_building(build6_texture,Vec3f(154,0,120), buliding_struct_5_sm);
+	render_building(build6_texture,Vec3f(197,0,197), buliding_struct_5_sm);
+	render_building(build6_texture,Vec3f(84,0,145), buliding_struct_6_sm);
+
+
+	render_building(build6_texture,Vec3f(198,0,80), buliding_struct_6_md);
+	render_building(build6_texture,Vec3f(198,0,55), buliding_struct_6_sm);
+
+	render_building(build6_texture,Vec3f(82,0,55), buliding_struct_6_xsm);
+
+	render_building(build6_texture,Vec3f(69,0,82), buliding_struct_1_sm);
+	render_building(build6_texture,Vec3f(69,0,119), buliding_struct_1_sm);
+	render_building(build6_texture,Vec3f(129,0,142), buliding_struct_1_sm);
+
+	render_building(build6_texture,Vec3f(220,0,177), buliding_struct_1_sm);
+	render_building(build6_texture,Vec3f(133,0,190), buliding_struct_4_sm);
+
+	render_building(build6_texture,Vec3f(129,0,74), buliding_struct_5_sm);
+
+	render_building(build6_texture,Vec3f(148,0,51), buliding_struct_6_sm);
 
 }
 
