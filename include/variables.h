@@ -17,6 +17,9 @@ float cam_x = 18.2913,cam_y = -4.48757,cam_z =  -1.70081;
 bool mode  = false;
 bool warped = false;
 bool full_screen = false;
+bool controls = true;
+float swidth=800;
+float sheight=600;
 
 GLuint ground_texture, 
 build1_texture, build2_texture, build3_texture, build4_texture, 
@@ -32,5 +35,5 @@ enum TimeOfDay {
 };
 
 TimeOfDay tod = TimeOfDay::Night;
-int time_hr = 0;
+int time_hr = 5;
 #endif

@@ -12,9 +12,6 @@
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
 
-int xg = 180;
-int zg = 150;
-
 void lighting() {
 	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientColor);
@@ -26,19 +23,71 @@ void lighting() {
 }
 
 void update_local_vars() {
-	time_hr %= 24;
 	if(time_hr > 4 && time_hr <= 11) {
 		lighting();
 		tod = TimeOfDay::Morning;
-	} else if (time_hr > 11 && time_hr <= 17) {
+	} 
+	else if (time_hr > 11 && time_hr <= 17) {
 		lighting();
 		tod = TimeOfDay::Afternoon;
-	} else if (time_hr > 17 && time_hr <= 19) {
+	} 
+	else if (time_hr > 17 && time_hr <= 19) {
 		lighting();
 		tod = TimeOfDay::Evening;
-	} else if (time_hr > 19) {
+	} 
+	else if ((time_hr > 19 && time_hr<=23) || ((time_hr >=0  && time_hr<=4))){
+		lighting();
 		tod = TimeOfDay::Night;
 	} 
+}
+
+string formatTime(){
+	string ts;
+	if(time_hr<10){
+		ts="Time : 0"+to_string(time_hr)+":00 Hrs";
+	}
+	else{
+		ts="Time : "+to_string(time_hr)+":00 Hrs";
+	}
+	return ts;
+}
+
+string ControlStr[]={
+	"w: Move Forward",
+	"s: Move Backward",
+	"a: Move Left",
+	"d: Move Right",
+	"i: Move Up",
+	"j: Move Down",
+	"t: Inc. Time",
+	"T: Dec. Time",
+	"space: Toggle Mouse Controls",
+	"c: Toggle Instructions",
+	"f: Toggle Full Screen",
+	"esc: Exit"
+};
+
+void renderText(string str,float txt_xoff,float txt_yoff,float rc,float gc,float bc){
+	txt_xoff=txt_xoff/sheight*0.01*FSCALE*tan(M_PI/18.0);
+	txt_yoff=txt_yoff/sheight*0.01*FSCALE*tan(M_PI/18.0);
+
+	float xoff=cam_x+0.0101*FSCALE*lx+txt_xoff*cos(yaw)-txt_yoff*sin(pitch)*sin(yaw);
+	float yoff=cam_y+0.0101*FSCALE*ly+txt_yoff*cos(pitch);
+	float zoff=cam_z+0.0101*FSCALE*lz+txt_xoff*sin(yaw)+txt_yoff*sin(pitch)*cos(yaw);
+	
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	glDisable(GL_TEXTURE_2D);
+	
+	glColor3f(rc,gc,bc);
+	glRasterPos3f(xoff,yoff,zoff);
+	for (int i=0; i<str.length(); i++) {
+		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,str[i]);
+	}
+	
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_TEXTURE_2D);
 }
 
 void keyboard(unsigned char key,int x,int y){
@@ -78,35 +127,18 @@ void keyboard(unsigned char key,int x,int y){
 				full_screen=1;
 			}
 			else{
-				glutReshapeWindow(400,400);
+				glutReshapeWindow(800,600);
 				full_screen=0;
 			}
 			break;
 		case 't':
-			time_hr++;
-			cout<<time_hr<<endl;
+			time_hr=(time_hr+1)%24;
 			break;
 		case 'T':
-			time_hr--;
-			cout<<time_hr<<endl;
+			time_hr=(time_hr+23)%24;
 			break;
-
-		case 'x':
-			xg++;
-			cout<<xg<<","<<zg<<endl;
-			break;
-		case 'X':
-			xg--;
-			cout<<xg<<","<<zg<<endl;
-			break;
-		case 'z':
-			zg++;
-			cout<<xg<<","<<zg<<endl;
-			break;
-		case 'Z':
-			zg--;
-			cout<<xg<<","<<zg<<endl;
-			break;
+		case 'c':
+			controls=!controls;
 	}
 	glutPostRedisplay();
 }
@@ -173,8 +205,7 @@ Vec3f ver[8] =
     {100.0,-100.0,-100.0},
 };
 
-void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices, float scale)
-{
+void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices, float scale){
 	//  125 is the error offset
 	Vec3f goff = Vec3f(X_OFF,Y_OFF - 25,Z_OFF);
 
@@ -298,9 +329,17 @@ void drawScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	update_local_vars();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
-	//cout<<cam_x<<' '<<cam_y<<' '<<cam_z<<endl;
 	
+	renderText(formatTime(),-swidth+50.0,sheight-80.0,1.0,0.0,1.0);
+	
+	if(controls){
+		for(int i=0;i<12;i++){
+			renderText(ControlStr[i],-swidth+50.0,sheight-140.0-60.0*i,1.0,1.0,0.0);
+		}
+	}
+
 	float scale = 5.0f / max(_terrain->width() - 1, _terrain->length() - 1);
 	glScalef(scale, scale, scale);
 	glTranslatef(-(float)(_terrain->width() - 1) / 2, 0.0f, -(float)(_terrain->length() - 1) / 2);
@@ -312,14 +351,15 @@ void drawScene(){
 
 	glutSwapBuffers();
 
-	update_local_vars();
 }
 
 void handleResize(int w, int h){
     glViewport(0, 0, w, h);
+	swidth=w;
+	sheight=h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(20.0, (double)w / (double)h, 0.01, 20 * FSCALE);
+	gluPerspective(20.0, (double)w / (double)h, 0.01*FSCALE, 20.0 * FSCALE);
 }
 
 void load_image_resources() {

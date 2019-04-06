@@ -10,7 +10,7 @@ Terrain* _terrain = new Terrain("./resources/heightmap.bmp", 50);
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(400, 400);
+	glutInitWindowSize(800, 600);
 	glutCreateWindow("3D Map simulator");
 	initRendering();
 	
