@@ -13,7 +13,7 @@ float rot_speed = 0.001f;
 float yaw  =  3.141592653;
 float pitch = 0.0f;
 float lx = 0.0f,lz = 1.0f,ly = 0.0f;
-float cam_x = 18.2913,cam_y = -4.48757,cam_z =  -1.70081;
+float cam_x = 307.696,cam_y = -31.887,cam_z =  94.0873;
 bool mode  = false;
 bool warped = false;
 bool full_screen = false;
@@ -35,5 +35,5 @@ enum TimeOfDay {
 };
 
 TimeOfDay tod = TimeOfDay::Night;
-int time_hr = 5;
+int time_hr = 22;
 #endif

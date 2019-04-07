@@ -44,30 +44,30 @@ void update_local_vars() {
 string formatTime(){
 	string ts;
 	if(time_hr<10){
-		ts="Time : 0"+to_string(time_hr)+":00 Hrs";
+		ts="TIME : 0"+to_string(time_hr)+":00 HRS";
 	}
 	else{
-		ts="Time : "+to_string(time_hr)+":00 Hrs";
+		ts="TIME : "+to_string(time_hr)+":00 HRS";
 	}
 	return ts;
 }
 
 string ControlStr[]={
-	"w: Move Forward",
-	"s: Move Backward",
-	"a: Move Left",
-	"d: Move Right",
-	"i: Move Up",
-	"j: Move Down",
-	"t: Inc. Time",
-	"T: Dec. Time",
-	"space: Toggle Mouse Controls",
-	"c: Toggle Instructions",
-	"f: Toggle Full Screen",
-	"esc: Exit"
+	"W: MOVE FORWARD",
+	"S: MOVE BACKWARD",
+	"A: MOVE LEFT",
+	"D: MOVE RIGHT",
+	"I: MOVE UP",
+	"J: MOVE DOWN",
+	"T: INC TIME",
+	"SHIFT+T: DEC TIME",
+	"SPACE: TOGGLE MOUSE CONTROLS",
+	"C: TOGGLE INSTRUCTIONS",
+	"F: TOGGLE FULL SCREEN",
+	"ESC: EXIT"
 };
 
-void renderText(string str,float txt_xoff,float txt_yoff,float rc,float gc,float bc){
+void renderText(void *font,string str,float txt_xoff,float txt_yoff,float rc,float gc,float bc){
 	txt_xoff=txt_xoff/sheight*0.01*FSCALE*tan(M_PI/18.0);
 	txt_yoff=txt_yoff/sheight*0.01*FSCALE*tan(M_PI/18.0);
 
@@ -82,7 +82,7 @@ void renderText(string str,float txt_xoff,float txt_yoff,float rc,float gc,float
 	glColor3f(rc,gc,bc);
 	glRasterPos3f(xoff,yoff,zoff);
 	for (int i=0; i<str.length(); i++) {
-		glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,str[i]);
+		glutBitmapCharacter(font,str[i]);
 	}
 	
 	glEnable(GL_LIGHTING);
@@ -331,12 +331,13 @@ void drawScene(){
 	glLoadIdentity();
 	update_local_vars();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
+	// cout<<cam_x<<' '<<cam_y<<' '<<cam_z<<endl;
 	
-	renderText(formatTime(),-swidth+50.0,sheight-80.0,1.0,0.0,1.0);
+	renderText(GLUT_BITMAP_TIMES_ROMAN_24,formatTime(),-swidth+50.0,sheight-80.0,1.0,0.0,0.0);
 	
 	if(controls){
 		for(int i=0;i<12;i++){
-			renderText(ControlStr[i],-swidth+50.0,sheight-140.0-60.0*i,1.0,1.0,0.0);
+			renderText(GLUT_BITMAP_HELVETICA_18,ControlStr[i],-swidth+50.0,sheight-140.0-60.0*i,1.0,1.0,1.0);
 		}
 	}
 
