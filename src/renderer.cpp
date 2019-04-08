@@ -401,6 +401,58 @@ void render_all_lamps() {
 	draw_lamp(10*FSCALE, 66 , 116);
 	draw_lamp(10*FSCALE, 56 , 116);
 
+	draw_lamp(10*FSCALE, 44 , 4);
+	draw_lamp(10*FSCALE, 74 , 4 );
+	draw_lamp(10*FSCALE, 112 , 4);
+	draw_lamp(10*FSCALE, 132 , 4);
+	draw_lamp(10*FSCALE, 192 , 100);
+	draw_lamp(10*FSCALE, 180 , 100);
+	draw_lamp(10*FSCALE, 180 , 120);
+	draw_lamp(10*FSCALE, 190 , 120);
+	draw_lamp(10*FSCALE, 114 , 116);
+	draw_lamp(10*FSCALE, 128 , 116);
+	draw_lamp(10*FSCALE, 128 , 104);
+	draw_lamp(10*FSCALE, 118 , 104);
+	draw_lamp(10*FSCALE, 240 , 104);
+	draw_lamp(10*FSCALE, 254 , 104);
+	draw_lamp(10*FSCALE, 254 , 116);
+	draw_lamp(10*FSCALE, 242 , 116);
+	draw_lamp(10*FSCALE, 242 , 164);
+	draw_lamp(10*FSCALE, 254 , 164);
+	draw_lamp(10*FSCALE, 254 , 176);
+	draw_lamp(10*FSCALE, 242 , 176);
+	draw_lamp(10*FSCALE, 242 , 164 );
+	draw_lamp(10*FSCALE, 52 , 166);
+	draw_lamp(10*FSCALE, 52 , 176);
+	draw_lamp(10*FSCALE, 66 , 176);
+	draw_lamp(10*FSCALE, 66 , 166);
+	draw_lamp(10*FSCALE, 118 , 166);
+	draw_lamp(10*FSCALE, 118 , 176);
+	draw_lamp(10*FSCALE, 128 , 176);
+	draw_lamp(10*FSCALE, 128 , 166);
+	draw_lamp(10*FSCALE, 128 , 176);
+	draw_lamp(10*FSCALE, 178 , 176);
+	draw_lamp(10*FSCALE, 178 , 166);
+	draw_lamp(10*FSCALE, 190 , 166);
+	draw_lamp(10*FSCALE, 190 , 176);
+	draw_lamp(10*FSCALE, 242 , 236 );
+	draw_lamp(10*FSCALE, 254 , 236);
+	draw_lamp(10*FSCALE, 254 , 246);
+	draw_lamp(10*FSCALE, 242 , 246);
+	draw_lamp(10*FSCALE, 190 , 246);
+	draw_lamp(10*FSCALE, 180 , 246);
+	draw_lamp(10*FSCALE, 180 , 234);
+	draw_lamp(10*FSCALE, 190 , 234);
+	draw_lamp(10*FSCALE, 116 , 236);
+	draw_lamp(10*FSCALE, 130 , 236 );
+	draw_lamp(10*FSCALE, 130 , 246);
+	draw_lamp(10*FSCALE, 118 , 246);
+	draw_lamp(10*FSCALE, 66 , 246 );
+	draw_lamp(10*FSCALE, 56 , 246);
+	draw_lamp(10*FSCALE, 54 , 236);
+	draw_lamp(10*FSCALE, 66 , 236 );
+
+
 	draw_lamp(10*FSCALE,gtx,gty);
 
 }
