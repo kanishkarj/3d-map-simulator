@@ -81,8 +81,7 @@ auto buliding_struct_4_md = construct_building(30,30,50);
 auto buliding_struct_5_md = construct_building(30,20,50);
 auto buliding_struct_6_md = construct_building(20,30,50);
 
-void draw_lamp(float lscale,float ox,float oy)
-{
+void draw_lamp(float lscale,float ox,float oy){
 	ox *= FSCALE; 
 	oy *= FSCALE; 
 	float oz = 15*FSCALE; 
@@ -94,18 +93,14 @@ void draw_lamp(float lscale,float ox,float oy)
     GLfloat radius = 0.02 * lscale;
     GLfloat height = 1.0 * lscale;
 
-
-    /** Draw the tube */
 	glPushMatrix();
 
-	if (tod == TimeOfDay::Night || tod == TimeOfDay::Evening) {
-		glDisable(GL_LIGHTING);
-		glDisable(GL_LIGHT0);
-		glDisable(GL_TEXTURE_2D);
-	}
-	
+	// Tube
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
+	glDisable(GL_TEXTURE_2D);
 	glRotatef(90, 1.0, 0.0, 0.0);
-    glColor3ub(47,79,79);
+    glColor3ub(43,30,22); //12,20,20 //43,30,22
     glBegin(GL_QUAD_STRIP);
     angle = 0.0;
         while( angle < 2*PI ) {
@@ -116,42 +111,31 @@ void draw_lamp(float lscale,float ox,float oy)
             angle = angle + angle_stepsize;
         }
     glEnd();
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_TEXTURE_2D);
 
-    /** Draw the circle on top of cylinder */
-    // glColor3ub(47,79,79);
-    // glBegin(GL_POLYGON);
-    // angle = 0.0;
-    //     while( angle < 2*PI ) {
-    //         x = radius * cos(angle);
-    //         y = radius * sin(angle);
-    //         glVertex3f(ox + x, oy + y , oz + height);
-    //         angle = angle + angle_stepsize;
-    //     }
-    //     glVertex3f(radius, 0.0, height);
-    // glEnd();
-
-	
-	glTranslatef(ox,oy,oz - 0.9*FSCALE);
-    
-	
-
+	// Light
 	if (tod == TimeOfDay::Night || tod == TimeOfDay::Evening) {
+		glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHT0);
+		glDisable(GL_TEXTURE_2D);
+		glTranslatef(ox,oy,oz - 0.9*FSCALE);
 		glColor3ub(255,255,255);
-    	glutSolidSphere(radius*5,20,20);
+		glutSolidSphere(radius*5,20,20);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
 		glEnable(GL_TEXTURE_2D);
-		
-	} else {
+	}
+	else{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glTranslatef(ox,oy,oz - 0.9*FSCALE);
 		glColor4f(1.0f,1.0f,1.0f,0.8f);
     	glutSolidSphere(radius*5,20,20);
+		glDisable(GL_BLEND);
 	}
 
-
-	glDisable(GL_BLEND);
     glPopMatrix();
-	//glEnd();
-//	glFlush();
+
 }

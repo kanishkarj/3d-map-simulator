@@ -26,27 +26,6 @@ void lighting() {
 }
 
 void collisionDetection(){
-	
-	// float colxoff=lx*(zNear*FSCALE+10.0);
-	// float colzoff=lz*(zNear*FSCALE+10.0);
-	// for(auto val: building_coord){
-	// 	if(cam_x+colxoff>val[0] && cam_x+colxoff<val[0]+val[2] && cam_z+colzoff>val[1] && cam_z+colzoff<val[1]+val[3]){
-	// 		printf("val: %f %f %f %f\ncam:  %f %f\n\n",val[0],val[1],val[0]+val[2],val[1]+val[3],cam_x,cam_z);
-	// 		if(cam_x+colxoff-val[0]<=val[0]+val[2]-cam_x-colxoff){
-	// 			cam_x=val[0]-colxoff;
-	// 		}
-	// 		else if(cam_x+colxoff-val[0]>val[0]+val[2]-cam_x-colxoff){
-	// 			cam_x=val[0]+val[2]-colxoff;
-	// 		}
-	// 		if(cam_z+colzoff-val[1]<=val[1]+val[3]-colzoff-cam_z){
-	// 			cam_z=val[1]-colzoff;
-	// 		}
-	// 		else if(cam_z+colzoff-val[1]>val[1]+val[3]-colzoff-cam_z){
-	// 			cam_z=val[1]+val[3]-colzoff;
-	// 		}
-	// 	}
-	// }
-
 	if(cam_y<-30)
 		cam_y=-30;
 	if(cam_y>500)
@@ -132,7 +111,6 @@ void renderText(void *font,string str,float txt_xoff,float txt_yoff,float rc,flo
 void keyboard(unsigned char key,int x,int y){
 	switch (key) {
 		case 27 :
-			cleanup();
 			exit(0);
 		case ' ':
 			mode=!mode;
@@ -178,22 +156,6 @@ void keyboard(unsigned char key,int x,int y){
 			break;
 		case 'c':
 			controls=!controls;
-		case 'x':
-			gtx += 2;
-			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
-			break;
-		case 'X':
-			gtx -= 2;
-			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
-			break;
-		case 'y':
-			gty += 2;
-			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
-			break;
-		case 'Y':
-			gty -= 2;
-			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
-			break;
 	}
 	glutPostRedisplay();
 }
@@ -523,8 +485,4 @@ void initRendering(){
 	glEnable(GL_NORMALIZE);
 	glEnable(GL_COLOR_MATERIAL);
 	load_image_resources();
-}
-
-void cleanup() {
-
 }

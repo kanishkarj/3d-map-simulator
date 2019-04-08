@@ -20,7 +20,6 @@ class Terrain {
 		void load_image(const char*, float);
 		void compute_normals();
 		Vec3f get_normal(int x, int z);
-		// getters and setters
 		int width();
 		int length();
 		void set_height(int x, int z, float y);
