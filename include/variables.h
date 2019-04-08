@@ -13,13 +13,16 @@ float rot_speed = 0.001f;
 float yaw  =  3.141592653;
 float pitch = 0.0f;
 float lx = 0.0f,lz = 1.0f,ly = 0.0f;
-float cam_x = 307.696,cam_y = -31.887,cam_z =  94.0873;
+float cam_x = 307.696,cam_y = -30.0,cam_z =  94.0873;
 bool mode  = true;
 bool warped = false;
 bool full_screen = false;
 bool controls = true;
 float swidth=800;
 float sheight=600;
+float fov=20.0;
+float zNear=0.01;
+float zFar=20;
 
 GLuint ground_texture, 
 build1_texture, build2_texture, build3_texture, build4_texture, 

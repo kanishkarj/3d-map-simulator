@@ -20,7 +20,7 @@ vector<Vec3f> construct_building(float l, float b, float h) {
 	t[7] = Vec3f(b,h,l);
 	return t;
 }
-
+// x,z,l,b
 vector<vector<float>> building_coord = {	
     {12.5,12.5,18.75,18.75},
 	{37.5,12.5,25,18.75},
