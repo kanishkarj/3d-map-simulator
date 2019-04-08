@@ -289,12 +289,12 @@ void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<
 
 void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices) {
 	// the coordinates ordering must be clockwise.
-    quad(2,7,4,3,build_top,offset,vertices, 3.0f); //top
-    quad(1,6,5,0,building_texture,offset,vertices, 3.0f); //bottom
-    quad(4,7,6,5,building_texture,offset,vertices, 3.0f); //front
-    quad(0,1,2,3,building_texture,offset,vertices, 3.0f); //back
-    quad(3,4,5,0,building_texture,offset,vertices, 3.0f); //left
-    quad(7,2,1,6,building_texture,offset,vertices, 3.0f); //right
+    quad(2,7,4,3,build_top,offset,vertices, 1.0f); //top
+    quad(1,6,5,0,building_texture,offset,vertices, 1.0f); //bottom
+    quad(4,7,6,5,building_texture,offset,vertices, 1.0f); //front
+    quad(0,1,2,3,building_texture,offset,vertices, 1.0f); //back
+    quad(3,4,5,0,building_texture,offset,vertices, 1.0f); //left
+    quad(7,2,1,6,building_texture,offset,vertices, 1.0f); //right
 }
 
 void render_sky_helper(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices, float scale) {
