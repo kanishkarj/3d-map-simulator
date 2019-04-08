@@ -6,6 +6,8 @@ this header file consists of all buildings
 
 using namespace std;
 
+#define PI 3.1415927
+
 vector<Vec3f> construct_building(float l, float b, float h) {
 	vector<Vec3f> t(8);
 	t[0] = Vec3f(0,0,0);
@@ -78,3 +80,65 @@ auto buliding_struct_6_sm = construct_building(20,30,25);
 auto buliding_struct_4_md = construct_building(30,30,50);
 auto buliding_struct_5_md = construct_building(30,20,50);
 auto buliding_struct_6_md = construct_building(20,30,50);
+
+void draw_lamp(float lscale,float ox,float oy)
+{
+	ox *= FSCALE; 
+	oy *= FSCALE; 
+	float oz = 10*FSCALE; 
+
+    GLfloat x              = 0.0;
+    GLfloat y              = 0.0;
+    GLfloat angle          = 0.0;
+    GLfloat angle_stepsize = 0.1;
+    GLfloat radius = 0.02 * lscale;
+    GLfloat height = 1.2 * lscale;
+
+
+    /** Draw the tube */
+	glPushMatrix();
+
+	if (tod == TimeOfDay::Night || tod == TimeOfDay::Evening) {
+		glDisable(GL_LIGHTING);
+		glDisable(GL_LIGHT0);
+		glDisable(GL_TEXTURE_2D);
+	}
+	
+	glRotatef(90, 1.0, 0.0, 0.0);
+    glColor3ub(47,79,79);
+    glBegin(GL_QUAD_STRIP);
+    angle = 0.0;
+        while( angle < 2*PI ) {
+            x = radius * cos(angle);
+            y = radius * sin(angle);
+            glVertex3f(ox + x, oy + y , oz + height);
+            glVertex3f(ox + x, oy + y , oz + 0.0);
+            angle = angle + angle_stepsize;
+        }
+    glEnd();
+
+    /** Draw the circle on top of cylinder */
+    // glColor3ub(47,79,79);
+    // glBegin(GL_POLYGON);
+    // angle = 0.0;
+    //     while( angle < 2*PI ) {
+    //         x = radius * cos(angle);
+    //         y = radius * sin(angle);
+    //         glVertex3f(ox + x, oy + y , oz + height);
+    //         angle = angle + angle_stepsize;
+    //     }
+    //     glVertex3f(radius, 0.0, height);
+    // glEnd();
+
+	glTranslatef(ox,oy,oz);
+    glColor3ub(255,255,255);
+    glutSolidSphere(radius*5,20,20);
+	if (tod == TimeOfDay::Night || tod == TimeOfDay::Evening) {
+		glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHT0);
+		glEnable(GL_TEXTURE_2D);
+	}
+    glPopMatrix();
+	//glEnd();
+//	glFlush();
+}

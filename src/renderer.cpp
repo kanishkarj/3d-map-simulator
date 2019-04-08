@@ -7,10 +7,12 @@
 #include "../include/terrain.h"
 #include "../include/imageloader.h"
 #include "../include/helper_functions.h"
-#include "../include/buildings.h"
+#include "../include/objects.h"
 
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
+
+float gtx=0.0,gty=0.0,gtz=0.0;
 
 void lighting() {
 	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
@@ -139,6 +141,22 @@ void keyboard(unsigned char key,int x,int y){
 			break;
 		case 'c':
 			controls=!controls;
+		case 'x':
+			gtx += 2;
+			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
+			break;
+		case 'X':
+			gtx -= 2;
+			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
+			break;
+		case 'y':
+			gty += 2;
+			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
+			break;
+		case 'Y':
+			gty -= 2;
+			cout<<gtx<<" : "<<gty<<" : "<<gtz<<"\n";
+			break;
 	}
 	glutPostRedisplay();
 }
@@ -325,6 +343,15 @@ void render_sky() {
 	}
 }
 
+void render_all_lamps() {
+
+	draw_lamp(10*FSCALE,242,2);
+	draw_lamp(10*FSCALE,242+20,2);
+
+	draw_lamp(10*FSCALE,gtx,gty);
+
+}
+
 void drawScene(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
@@ -349,6 +376,7 @@ void drawScene(){
 	
 	render_all_buildings();
 	render_sky();
+	render_all_lamps();
 
 	glutSwapBuffers();
 
