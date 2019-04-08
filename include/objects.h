@@ -85,14 +85,14 @@ void draw_lamp(float lscale,float ox,float oy)
 {
 	ox *= FSCALE; 
 	oy *= FSCALE; 
-	float oz = 10*FSCALE; 
+	float oz = 15*FSCALE; 
 
     GLfloat x              = 0.0;
     GLfloat y              = 0.0;
     GLfloat angle          = 0.0;
     GLfloat angle_stepsize = 0.1;
     GLfloat radius = 0.02 * lscale;
-    GLfloat height = 1.2 * lscale;
+    GLfloat height = 1.0 * lscale;
 
 
     /** Draw the tube */
@@ -130,14 +130,27 @@ void draw_lamp(float lscale,float ox,float oy)
     //     glVertex3f(radius, 0.0, height);
     // glEnd();
 
-	glTranslatef(ox,oy,oz);
-    glColor3ub(255,255,255);
-    glutSolidSphere(radius*5,20,20);
+	
+	glTranslatef(ox,oy,oz - 0.9*FSCALE);
+    
+	
+
 	if (tod == TimeOfDay::Night || tod == TimeOfDay::Evening) {
+		glColor3ub(255,255,255);
+    	glutSolidSphere(radius*5,20,20);
 		glEnable(GL_LIGHTING);
 		glEnable(GL_LIGHT0);
 		glEnable(GL_TEXTURE_2D);
+		
+	} else {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glColor4f(1.0f,1.0f,1.0f,0.8f);
+    	glutSolidSphere(radius*5,20,20);
 	}
+
+
+	glDisable(GL_BLEND);
     glPopMatrix();
 	//glEnd();
 //	glFlush();
