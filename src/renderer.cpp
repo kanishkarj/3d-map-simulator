@@ -11,6 +11,7 @@
 
 extern Terrain* _terrain;
 float limit=89.0*M_PI/180.0f;
+float yview = zNear*FSCALE*tan(fov/2*M_PI/180.0);
 
 void lighting() {
 	GLfloat ambientColor[] = {0.4f, 0.4f, 0.4f, 1.0f};
@@ -20,6 +21,42 @@ void lighting() {
 	GLfloat lightPos0[] = {-0.5f, 0.8f, 0.1f, 0.0f};
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor0);
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+}
+
+void collisionDetection(){
+	
+	// float colxoff=lx*(zNear*FSCALE+10.0);
+	// float colzoff=lz*(zNear*FSCALE+10.0);
+	// for(auto val: building_coord){
+	// 	if(cam_x+colxoff>val[0] && cam_x+colxoff<val[0]+val[2] && cam_z+colzoff>val[1] && cam_z+colzoff<val[1]+val[3]){
+	// 		printf("val: %f %f %f %f\ncam:  %f %f\n\n",val[0],val[1],val[0]+val[2],val[1]+val[3],cam_x,cam_z);
+	// 		if(cam_x+colxoff-val[0]<=val[0]+val[2]-cam_x-colxoff){
+	// 			cam_x=val[0]-colxoff;
+	// 		}
+	// 		else if(cam_x+colxoff-val[0]>val[0]+val[2]-cam_x-colxoff){
+	// 			cam_x=val[0]+val[2]-colxoff;
+	// 		}
+	// 		if(cam_z+colzoff-val[1]<=val[1]+val[3]-colzoff-cam_z){
+	// 			cam_z=val[1]-colzoff;
+	// 		}
+	// 		else if(cam_z+colzoff-val[1]>val[1]+val[3]-colzoff-cam_z){
+	// 			cam_z=val[1]+val[3]-colzoff;
+	// 		}
+	// 	}
+	// }
+
+	if(cam_y<-30)
+		cam_y=-30;
+	if(cam_y>500)
+		cam_y=500;
+	if(cam_x<10)
+		cam_x=10;
+	if(cam_x>490)
+		cam_x=490;
+	if(cam_z<10)
+		cam_z=10;
+	if(cam_z>490)
+		cam_z=490;
 }
 
 void update_local_vars() {
@@ -68,12 +105,12 @@ string ControlStr[]={
 };
 
 void renderText(void *font,string str,float txt_xoff,float txt_yoff,float rc,float gc,float bc){
-	txt_xoff=txt_xoff/sheight*0.01*FSCALE*tan(M_PI/18.0);
-	txt_yoff=txt_yoff/sheight*0.01*FSCALE*tan(M_PI/18.0);
+	txt_xoff=txt_xoff/sheight*yview;
+	txt_yoff=txt_yoff/sheight*yview;
 
-	float xoff=cam_x+0.0101*FSCALE*lx+txt_xoff*cos(yaw)-txt_yoff*sin(pitch)*sin(yaw);
-	float yoff=cam_y+0.0101*FSCALE*ly+txt_yoff*cos(pitch);
-	float zoff=cam_z+0.0101*FSCALE*lz+txt_xoff*sin(yaw)+txt_yoff*sin(pitch)*cos(yaw);
+	float xoff=cam_x+(zNear+0.0001)*FSCALE*lx+txt_xoff*cos(yaw)-txt_yoff*sin(pitch)*sin(yaw);
+	float yoff=cam_y+(zNear+0.0001)*FSCALE*ly+txt_yoff*cos(pitch);
+	float zoff=cam_z+(zNear+0.0001)*FSCALE*lz+txt_xoff*sin(yaw)+txt_yoff*sin(pitch)*cos(yaw);
 	
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
@@ -330,8 +367,9 @@ void drawScene(){
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	update_local_vars();
+	collisionDetection();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
-	// cout<<cam_x<<' '<<cam_y<<' '<<cam_z<<endl;
+	cout<<cam_x<<' '<<cam_z<<endl;
 	
 	renderText(GLUT_BITMAP_TIMES_ROMAN_24,formatTime(),-swidth+50.0,sheight-80.0,1.0,0.0,0.0);
 	
@@ -360,7 +398,7 @@ void handleResize(int w, int h){
 	sheight=h;
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(20.0, (double)w / (double)h, 0.01*FSCALE, 20.0 * FSCALE);
+	gluPerspective(fov, (double)w / (double)h, zNear*FSCALE, zFar * FSCALE);
 }
 
 void load_image_resources() {
