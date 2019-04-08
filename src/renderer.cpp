@@ -383,7 +383,23 @@ void render_sky() {
 void render_all_lamps() {
 
 	draw_lamp(10*FSCALE,242,2);
-	draw_lamp(10*FSCALE,242+20,2);
+	draw_lamp(10*FSCALE,260,2);
+	draw_lamp(10*FSCALE,190,2 );
+	draw_lamp(10*FSCALE, 180,2);
+	draw_lamp(10*FSCALE, 180 , 40);
+	draw_lamp(10*FSCALE, 180 , 52);
+	draw_lamp(10*FSCALE, 190 , 52);
+	draw_lamp(10*FSCALE, 128 , 52);
+	draw_lamp(10*FSCALE, 116 , 52);
+	draw_lamp(10*FSCALE, 116 , 38);
+	draw_lamp(10*FSCALE, 128 , 38);
+	draw_lamp(10*FSCALE, 68 , 38);
+	draw_lamp(10*FSCALE, 68 , 52);
+	draw_lamp(10*FSCALE, 54 , 52);
+	draw_lamp(10*FSCALE, 54 , 102);
+	draw_lamp(10*FSCALE, 66 , 102);
+	draw_lamp(10*FSCALE, 66 , 116);
+	draw_lamp(10*FSCALE, 56 , 116);
 
 	draw_lamp(10*FSCALE,gtx,gty);
 
@@ -396,7 +412,7 @@ void drawScene(){
 	update_local_vars();
 	collisionDetection();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
-	cout<<cam_x<<' '<<cam_z<<endl;
+	// cout<<cam_x<<' '<<cam_z<<endl;
 	
 	renderText(GLUT_BITMAP_TIMES_ROMAN_24,formatTime(),-swidth+50.0,sheight-80.0,1.0,0.0,0.0);
 	
