@@ -33,11 +33,9 @@ void collisionDetection(){
 	float tcam_x = cam_x * fac;
 	float tcam_z = cam_z * fac;
 
-	// cout<<tcam_x<<" "<<tcam_z<<endl;
 
 	for(auto val: building_coord){
-		if( cam_y<200 && tcam_x>=val[0] && tcam_x<=val[0]+val[2] && tcam_z>=val[1] && tcam_z<=val[1]+val[3]) {
-			printf("val: %f %f %f %f\ncam:  %f %f\n\n",val[0],val[1],val[0]+val[2],val[1]+val[3],cam_x,cam_z);
+		if( cam_y<100 && tcam_x>=val[0] && tcam_x<=val[0]+val[2] && tcam_z>=val[1] && tcam_z<=val[1]+val[3]) {
 			cam_x = precam_x;
 			cam_y = precam_y;
 			cam_z = precam_z;
@@ -275,14 +273,16 @@ void render_building(GLuint building_texture, Vec3f offset, vector<Vec3f> vertic
     quad(7,2,1,6,building_texture,offset,vertices, 1.0f); //right
 }
 
-void render_sky_helper(GLuint building_texture, Vec3f offset, vector<Vec3f> vertices, float scale) {
+
+void render_sky_helper(GLuint t1,GLuint t2,GLuint t3,GLuint t4,GLuint t5,GLuint t6, Vec3f offset, vector<Vec3f> vertices, float scale) {
 	// the coordinates ordering must be clockwise.
-    quad(2,7,4,3,building_texture,offset,vertices, scale); //top
-    quad(1,6,5,0,building_texture,offset,vertices, scale); //bottom
-    quad(4,7,6,5,building_texture,offset,vertices, scale); //front
-    quad(0,1,2,3,building_texture,offset,vertices, scale); //back
-    quad(3,4,5,0,building_texture,offset,vertices, scale); //left
-    quad(7,2,1,6,building_texture,offset,vertices, scale); //right
+    quad(2,7,4,3,t5,offset,vertices, scale); //top
+    quad(1,6,5,0,t6,offset,vertices, scale); //bottom
+    
+	quad(4,7,6,5,t1,offset,vertices, scale); //front
+    quad(3,4,5,0,t2,offset,vertices, scale); //right
+    quad(0,1,2,3,t3,offset,vertices, scale); //back
+    quad(7,2,1,6,t4,offset,vertices, scale); //left
 }
 
 void render_all_buildings() {
@@ -340,19 +340,19 @@ void render_all_buildings() {
 void render_sky() {
 	switch (tod) {
 		case TimeOfDay::Night : {
-			render_sky_helper(sky_night,Vec3f(-100,-100,-100),sky_coord,3.0f);
+			render_sky_helper(sky_night1,sky_night2,sky_night3,sky_night4,sky_night1,sky_night1,Vec3f(-100,-100,-100),sky_coord,2.0f);
 			break;
 		}
 		case TimeOfDay::Afternoon : {
-			render_sky_helper(sky_afternoon,Vec3f(-100,-100,-100),sky_coord,1.0f);
+			render_sky_helper(sky_afternoon1,sky_afternoon2,sky_afternoon3,sky_afternoon4,sky_afternoon1,sky_afternoon1,Vec3f(-100,-100,-100),sky_coord,1.0f);
 			break;
 		}
 		case TimeOfDay::Morning : {
-			render_sky_helper(sky_morning,Vec3f(-100,-100,-100),sky_coord,1.0f);
+			render_sky_helper(sky_morning1,sky_morning2,sky_morning3,sky_morning4,sky_morning1,sky_morning1,Vec3f(-100,-100,-100),sky_coord,1.0f);
 			break;
 		}
 		case TimeOfDay::Evening : {
-			render_sky_helper(sky_evening,Vec3f(-100,-100,-100),sky_coord,1.0f);
+			render_sky_helper(sky_evening1,sky_evening2,sky_evening3,sky_evening4,sky_evening1,sky_evening1,Vec3f(-100,-100,-100),sky_coord,1.0f);
 			break;
 		}
 	}
@@ -492,11 +492,23 @@ void load_image_resources() {
 	build6_texture = loadTx("./resources/buildings/build6.bmp");
 	build_top = loadTx("./resources/buildings/build_top.bmp");
 
-	sky_night = loadTx("./resources/sky/night.bmp");
-	sky_afternoon = loadTx("./resources/sky/afternoon.bmp");
-	sky_evening = loadTx("./resources/sky/evening.bmp");
-	sky_morning = loadTx("./resources/sky/morning.bmp");
- 
+	sky_afternoon1 = loadTx("./resources/sky/afternoon/1.bmp");
+	sky_afternoon2 = loadTx("./resources/sky/afternoon/2.bmp");
+	sky_afternoon3 = loadTx("./resources/sky/afternoon/3.bmp");
+	sky_afternoon4 = loadTx("./resources/sky/afternoon/4.bmp");
+
+	sky_evening1 = loadTx("./resources/sky/evening/1.bmp");
+	sky_evening2 = loadTx("./resources/sky/evening/2.bmp");
+	sky_evening3 = loadTx("./resources/sky/evening/3.bmp");
+	sky_evening4 = loadTx("./resources/sky/evening/4.bmp");
+
+	sky_morning1 = loadTx("./resources/sky/morning/1.bmp");
+	sky_morning2 = loadTx("./resources/sky/morning/2.bmp");
+	sky_morning3 = loadTx("./resources/sky/morning/3.bmp");
+	sky_morning4 = loadTx("./resources/sky/morning/4.bmp");
+
+	sky_night1 = loadTx("./resources/sky/night.bmp");
+	sky_night2 = sky_night3 = sky_night4 = sky_night1;
 }
 
 void initRendering(){

@@ -20,7 +20,7 @@ bool full_screen = false;
 bool controls = true;
 float swidth=800;
 float sheight=600;
-float fov=30.0;
+float fov=20.0;
 float zNear=0.1;
 float zFar=20;
 
@@ -28,7 +28,10 @@ float zFar=20;
 GLuint ground_texture, 
 build1_texture, build2_texture, build3_texture, build4_texture, 
 build5_texture, build6_texture, build_top, 
-sky_night, sky_afternoon, sky_morning, sky_evening; 
+sky_afternoon1, sky_afternoon2, sky_afternoon3, sky_afternoon4,
+sky_morning1, sky_morning2, sky_morning3, sky_morning4,
+sky_evening1, sky_evening2, sky_evening3, sky_evening4, 
+sky_night1, sky_night2, sky_night3, sky_night4; 
 
 // Time Variables
 enum TimeOfDay {
