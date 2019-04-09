@@ -25,7 +25,24 @@ void lighting() {
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
 }
 
+float precam_x=cam_x,precam_y=cam_y,precam_z=cam_z;
+
 void collisionDetection(){
+
+	float fac = 3.0f/5;
+	float tcam_x = cam_x * fac;
+	float tcam_z = cam_z * fac;
+
+	// cout<<tcam_x<<" "<<tcam_z<<endl;
+
+	for(auto val: building_coord){
+		if( cam_y<200 && tcam_x>=val[0] && tcam_x<=val[0]+val[2] && tcam_z>=val[1] && tcam_z<=val[1]+val[3]) {
+			printf("val: %f %f %f %f\ncam:  %f %f\n\n",val[0],val[1],val[0]+val[2],val[1]+val[3],cam_x,cam_z);
+			cam_x = precam_x;
+			cam_y = precam_y;
+			cam_z = precam_z;
+		}
+	}
 	if(cam_y<-30)
 		cam_y=-30;
 	if(cam_y>500)
@@ -223,8 +240,7 @@ Vec3f ver[8] =
 };
 
 void quad(int a,int b,int c,int d, GLuint building_texture, Vec3f offset,vector<Vec3f> vertices, float scale){
-	//  125 is the error offset
-	Vec3f goff = Vec3f(X_OFF,Y_OFF - 25,Z_OFF);
+	Vec3f goff = Vec3f(0,-25,0);
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, building_texture);
@@ -426,7 +442,12 @@ void drawScene(){
 	update_local_vars();
 	collisionDetection();
 	gluLookAt(cam_x,cam_y,cam_z,cam_x+lx,cam_y+ly,cam_z+lz,0.0f,1.0f,0.0f);
+
 	// cout<<cam_x<<' '<<cam_z<<endl;
+	// cout<<precam_x<<" "<<precam_z<<"\n\n";
+	precam_x=cam_x;
+	precam_y=cam_y;
+	precam_z=cam_z;
 	
 	renderText(GLUT_BITMAP_TIMES_ROMAN_24,formatTime(),-swidth+50.0,sheight-80.0,1.0,0.0,0.0);
 	
@@ -438,13 +459,13 @@ void drawScene(){
 
 	float scale = 5.0f / max(_terrain->width() - 1, _terrain->length() - 1);
 	glScalef(scale, scale, scale);
-	glTranslatef(-(float)(_terrain->width() - 1) / 2, 0.0f, -(float)(_terrain->length() - 1) / 2);
 	
 	render_terrain(ground_texture);
 	
 	render_all_buildings();
 	render_sky();
 	render_all_lamps();
+
 
 	glutSwapBuffers();
 

@@ -3,9 +3,9 @@
 
 // Model Variables
 float FSCALE = 100.0f; 
-int X_OFF = 0; 
-int Y_OFF = 0; 
-int Z_OFF = 0;
+const int X_OFF = 0; 
+const int Y_OFF = 0; 
+const int Z_OFF = 0;
 
 // Camera Variables
 float speed = 0.010f * FSCALE;
@@ -20,8 +20,8 @@ bool full_screen = false;
 bool controls = true;
 float swidth=800;
 float sheight=600;
-float fov=20.0;
-float zNear=0.01;
+float fov=30.0;
+float zNear=0.1;
 float zFar=20;
 
 // Object Variables
